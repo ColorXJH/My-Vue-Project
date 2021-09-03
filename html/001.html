@@ -64,6 +64,20 @@ html5与MathML(数学标记语言，可以在html文档中使用，对应标签<
 </div>
 <button onclick="getLocation()">点我</button>
 <div id="mapholder"></div>
+
+
+<div>
+    <div><button  onclick="plays()">播放/暂停</button></div>
+    <div><button  onclick="makeBig()">放大</button></div>
+    <div><button  onclick="makeSmall()">缩小</button></div>
+    <div><button  onclick="makeNormal()">普通</button></div>
+    <div><video width="320" height="240" controls id="video1">
+        <source src="../picture/一键成图.mp4" type="video/mp4">
+        您的浏览器不支持html5 video标签
+    </video>
+
+</div>
+
 </body>
 
 <script>
@@ -184,7 +198,23 @@ html5与MathML(数学标记语言，可以在html文档中使用，对应标签<
         }
     }
 
-
+    var myVideo=document.getElementById("video1");
+    function plays(){
+        if(myVideo.paused){
+            myVideo.play();
+        }else{
+            myVideo.pause()
+        }
+    }
+    function makeBig(){
+        myVideo.width=560;
+    }
+    function makeSmall(){
+        myVideo.width=160;
+    }
+    function makeNormal(){
+        myVideo.width=320;
+    }
 
 
 </script>
