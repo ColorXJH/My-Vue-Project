@@ -98,8 +98,27 @@ html5与MathML(数学标记语言，可以在html文档中使用，对应标签<
     time:<input type="time" name="time"><br/>
     url:<input type="url" name="homePage"><br/>
     week:<input type="week" name="week"><br/>
-    //html5新的表单元素
-
+    //html5新的表单元素<br/>
+    datalist:<input list="browsers">
+    <datalist id="browsers">
+        <option value="IE"/>
+        <option value="Chrome"/>
+        <option value="Firefox"/>
+        <option value="Safari"/>
+    </datalist>
+    <br/>
+    keygen:
+    <form action="" method="get">
+                用户名：<input type="text" name="user_name"><br/>
+                加密：<keygen></keygen><br/>
+                <input type="submit">
+    </form><br/>
+    output:
+    <form oninput="x.value=parseInt(a.value)+parseInt(b.value)">0
+    <input type="range" id="a" value="50">100 +
+    <input type="number" id="b" value="50">=
+    <output name="x" for="a b"></output>
+</form>
 
 </div>
 
