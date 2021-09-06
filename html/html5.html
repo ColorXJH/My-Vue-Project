@@ -117,9 +117,86 @@ html5与MathML(数学标记语言，可以在html文档中使用，对应标签<
     <form oninput="x.value=parseInt(a.value)+parseInt(b.value)">0
     <input type="range" id="a" value="50">100 +
     <input type="number" id="b" value="50">=
-    <output name="x" for="a b"></output>
-</form>
+    <output name="x" for="a b"></output><br/>
+    </form>
+    autocomplete属性：自动填充<br/>
+    <form action="" autocomplete="on">
+        firstName:<input name="name" type="text"><br/>
+        lastName:<input name="last" type="text"><br/>
+        Email:<input type="email" name="email" autocomplete="off"><br/>
+        <input type="submit">
+    </form>
+    novalidate:不验证表单属性<br/>
+    <form action="" novalidate>
+            email:<input type="email" name="email"><br/>
+            <input type="submit"><br/>
+    </form>
+        autofocus:页面加载时，域自动获得焦点<br/>
+        FirstName:<input type="text" name="xjh" autofocus><br/>
 
+        form:规定输入域所属的一个或多个表单：<br/>
+        <form id="form1" action="">
+            email:<input type="email" name="es"><br/>
+            <input type="submit" value="Submit"><br/>
+        </form>
+        <input type="text" name="usname" form="form1"><br/>
+        formaction:用于描述表单提交的url地址，该属性会覆盖form表单的action属性属性用于type="submit/image"<br/>
+        <form action="">
+            firstName:<input type="text"name="useText"><br/>
+            <input type="submit" formaction="/anotherUrl"><br/>
+        </form>
+        formenctype:描述了表单提交到服务器的数据编码，只针对post提交，覆盖form表单的enctype属性<br/>
+        <form action="" method="post">
+            First name: <input type="text" name="fname"><br>
+            <input type="submit" value="Submit">
+            <input type="submit" formenctype="multipart/form-data"
+                   value="Submit as Multipart/form-data"><br/>
+        </form>
+        formmethod:定义了表单提交的方式，覆盖了form表单的method属性，可以与type="submit/image"配合使用：<br/>
+        <form action="" method="get">
+            First name: <input type="text" name="fname"><br>
+            Last name: <input type="text" name="lname"><br>
+            <input type="submit" value="Submit">
+            <input type="submit" formmethod="post" formaction="demo-post.php"
+                   value="Submit using POST"><br>
+        </form>
+        formnovalidate:会覆盖form元素的novalidate属性，通常与type="submit"一起使用<br>
+        <form action ="">
+            <input type="email" name="email">
+            <br>
+            <input type="submit"><br>
+            <input type="submit" formnovalidate value="formnovalidate"><br>
+        </form><br>
+        formtarget:指定一个名称或者关键字来指明表单提交数据接收后的展示，会覆盖form元素的target属性，通常与type="submit/image"配合使用
+        <br>
+        <form action="">
+        First name: <input type="text" name="fname"><br>
+        Last name: <input type="text" name="lname"><br>
+        <input type="submit" value="Submit as normal">
+        <input type="submit" formtarget="_blank"
+               value="Submit to a new window">
+        </form>
+        <br>
+        input的height和width<br>
+        <input type="image" height="50" width="50" src="../picture/001.jpg"><br>
+        input的multiple：规定input元素中可以选择多个值<br>
+        selectImage:<input type="file" name="filess" multiple><br>
+    <br>
+       input的pattern:描述了一个正则表达式验证了input元素的值<br>
+       <form>
+       pattern:<input type="text" name="myValue" pattern="[a-z]{3}" title="please use three letters">
+       <input type="submit">
+       </form>
+    <br>
+       input的placeholder:描述输入域所期待的值<br>
+       <input type="text" name="myText" placeholder="请输入正确的值">
+    <br>
+       input的required:规定输入域不能为空<br>
+       <form>
+           <input type="text" name="mYtt" required>
+           <input type="submit">
+       </form>
+    <br>
 </div>
 
 
