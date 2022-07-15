@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div"></div>
+</body>
+<script>
+    let template = `
+        <ul>
+        <% for(let i=0; i < data.supplies.length; i++) { %>
+                <li><%= data.supplies[i] %></li>
+            <% } %>
+        </ul>
+`;
+
+    function compile(template){
+        const evalExpr = /<%=(.+?)%>/g;
+        const expr = /<%([\s\S]+?)%>/g;
+
+        template = template
+            .replace(evalExpr, '`); \n  echo( $1 ); \n  echo(`')
+            .replace(expr, '`); \n $1 \n  echo(`');
+
+        template = 'echo(`' + template + '`);';
+
+        let script =
+            `(function parse(data){
+    let output = "";
+
+    function echo(html){
+      output += html;
+    }
+
+    ${ template }
+
+    return output;
+  })`;
+
+        return script;
+    }
+    let parse = eval(compile(template));
+    div.innerHTML = parse({ supplies: [ "broom", "mop", "cleaner" ] });
+
+
+
+    let total = 30;
+    function passthru(literals) {
+        let result = '';
+        let i = 0;
+
+        while (i < literals.length) {
+            result += literals[i++];
+            if (i < arguments.length) {
+                result += arguments[i];
+            }
+        }
+
+        return result;
+    }
+    let msg = passthru`The total is ${total} (${total*1.05} with tax)`;
+    msg;
+
+
+    java`
+class HelloWorldApp {
+  public static void main(String[] args) {
+    System.out.println("Hello World!"); // Display the string.
+  }
+}
+`
+    HelloWorldApp.main();
+
+
+
+
+</script>
+</html>
