@@ -6,8 +6,19 @@
     <script type="text/javascript" src="../js/vue.js"></script>
 </head>
 <body>
+
+<div id="app">
+    {{ message }}
+</div>
     <script type="text/javascript">//type可以不写，默认维 type="text/javascript"
-           Vue.config.productionTip=false;//阻止启动产生的提示
+        Vue.config.productionTip=false;//阻止启动产生的提示
+        let app=new Vue({
+            el:"#app",
+            data:{
+                message:"hello world"
+            }
+
+        })
     </script>
 </body>
 </html>
