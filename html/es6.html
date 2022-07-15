@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>es6基础教程</title>
+    <style>
+        .test {
+            display: inline-block;
+        }
+        .test:after {
+            content: attr(data-content);
+        }
+
+    </style>
 </head>
 <body>
 <a href="https://es6.ruanyifeng.com/" target="_blank">阮一峰文档地址</a>
@@ -10,6 +19,144 @@
     let和const命令
 
 </pre>
+<div class="test" data-content="This is the div content">test</div>
+<form target="/search">
+    <input name="q" type="search" />
+    <input type="submit" />
+</form>
+
+<main>主体内容</main>
+<aside>侧边栏</aside>
+
+<p>第一段</p>
+
+<aside>
+    <p>本段是文章的重点。</p>
+</aside>
+
+<hgroup>
+    <h1>Heading 1</h1>
+    <h2>Subheading 1</h2>
+    <h2>Subheading 2</h2>
+</hgroup>
+
+<p>yiyiyi</p>
+
+<p>ererer</p>
+<section>
+<p><strong>第一个主题</strong></p>
+</section>
+<section>
+    <p><b>第二个主题</b></p>
+</section>
+
+<p>水分子是 H<sub>2</sub>O。</p>
+<p>勾股定理是
+    <var>a</var><sup>2</sup> + <var>b</var><sup>2</sup> = <var>c</var><sup>2</sup>
+    。</p>
+
+
+<p>
+    一个容易写错的成语是把<em>安分守己</em>写成<u>安份守己</u>。
+</p>
+
+<p>今天特价商品：<s>三文鱼</s>（售完）</p>
+
+<blockquote cite="https://quote.example.com">
+    <p>天才就是 1% 的天赋和99%的汗水。</p>
+</blockquote>
+天才就是 1% 的天赋和99%的汗水。
+<cite>-- 爱迪生</cite>
+<p>更多资料请看<cite>维基百科</cite>。</p>
+
+<p>
+    莎士比亚的《哈姆雷特》有一句著名的台词：
+    <q cite="https://quote.example.com">活着还是死亡，这是一个问题。</q>
+</p>
+<code>alert()</code>的作用是让网页弹出一个提示框。
+
+<p>Windows 可以按下 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Del</kbd> 重启。</p>
+
+<p>如果使用没有定义的变量，浏览器会报错：
+    <samp>Uncaught ReferenceError: foo is not defined</samp>。
+</p>
+
+<p>我们讨论以后决定，<mark>运行会在下周三举办</mark>。</p>
+
+
+<p>文章正文</p>
+<p><small>以上内容使用创意共享许可证。</small></p>
+
+<p>运动会预定<time datetime="2015-06-10">下周三</time>举行。</p>
+
+
+<p>作者的联系方式：</p>
+
+<address>
+    <p><a href="mailto:foo@example.com">foo@example.com</a></p>
+    <p><a href="tel:+555-34762301">+555-34762301</a></p>
+    <abbr title="HyperText Markup Language">HTML</abbr>
+
+    <del><p>会议定于5月8日举行。</p></del>
+    <ins><p>会议定于5月9日举行。</p></ins>
+
+
+    <p>
+        通过 TCP/IP 协议连接的全球性计算机网络，叫做
+        <dfn title="全球性计算机网络">Internet</dfn>。
+    </p>
+</address>
+
+<p>
+    <dfn><abbr title="acquired immune deficiency syndrome">AIDS</abbr></dfn>
+    的全称是获得性免疫缺陷综合征。
+</p>
+
+<ruby>
+    汉<rp>(</rp><rt>han</rt><rp>)</rp>
+    字<rp>(</rp><rt>zi</rt><rp>)</rp>
+</ruby>
+
+
+<ruby>
+    <rb>汉</rb><rb>字</rb>
+    <rp>(</rp>
+    <rt>han</rt>
+    <rt>zi</rt>
+    <rp>)</rp>
+</ruby>
+
+
+<ruby style="ruby-position: under;">
+    <rbc>
+        <rb>汉</rb><rp>(</rp><rt>han</rt><rp>)</rp>
+        <rb>字</rb><rp>(</rp><rt>zi</rt><rp>)</rp>
+    </rbc>
+    <rtc style="ruby-position: over;">
+        <rp>(</rp><rt>Chinese</rt><rp>)</rp>
+    </rtc>
+</ruby>
+
+<p><bdi>床前明月光，疑是地上霜。</bdi></p>
+
+<p>床前明月光，<bdo dir="rtl">霜上地是疑</bdo>。</p>
+
+
+<ol>
+    <li>列表项 A</li>
+    <li>列表项 B</li>
+    <li>列表项 C</li>
+</ol>
+
+<dl>
+    <dt>A</dt>
+    <dt>B</dt>
+    <dd>C</dd>
+
+    <dt>D</dt>
+    <dd>E</dd>
+    <dd>F</dd>
+</dl>
 </body>
 <script>
     {
