@@ -5087,7 +5087,7 @@
   function Vue (options) {
     if (!(this instanceof Vue)
     ) {
-      warn('Vue is a constructor and should be called with the `new` keyword');
+      warn('Vue is a constructor and should be called with the `new` keyword--ColorXJH');
     }
     this._init(options);
   }

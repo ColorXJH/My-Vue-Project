@@ -8,17 +8,35 @@
 <body>
 
 <div id="app">
-    {{ message }}
+    <h1>hello,{{ message }}</h1>
+    <h1>我是： {{name}}</h1>
+</div>
+<div id="root">
+    <h1>指令语法</h1>
+    <a v-bind:href="url" v-bind:value="hello">{{hello}}</a>
+    <a :href="url" :value="hello">点我去尚硅谷学习2</a>
+    <input type="text" v-model:value="value1">
+    <input type="text" :value="value1">
+    <input type="text" v-model="value1">
 </div>
     <script type="text/javascript">//type可以不写，默认维 type="text/javascript"
         Vue.config.productionTip=false;//阻止启动产生的提示
-        let app=new Vue({
-            el:"#app",
-            data:{
-                message:"hello world"
-            }
+        new Vue({
+            el: "#app",
+            data: {
+                message: "张三",
+                name:"ColorXJH"
+        }
 
-        })
+        });
+        new Vue({
+            el:"#root",
+            data:{
+                url:"http://www.atguigu.com",
+                hello:"你好",
+                value1:"你好啊"
+            }
+        });
     </script>
 </body>
 </html>
