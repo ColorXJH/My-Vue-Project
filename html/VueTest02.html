@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <style>
+        *{
+            margin-top: 20px;
+        }
+        .myDiv{
+            height: 50px;
+            background-color: skyblue;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="root">
+        同学你好，我是{{name}}
+        <button v-on:click="showInfo">点我弹窗1</button>
+        <button @click="showInfo2">点我弹窗2</button>
+        <button @click="showInfo3($event,66)">点我弹窗3</button>
+        <button @click="showInfo4(7766)">点我弹窗4</button>
+        <a href="https://www.baidu.com" target="_blank" @click="showInfo5">点我跳转</a>
+        <a href="https://www.baidu.com" target="_blank" @click.prevent="showInfo6">点我跳转</a><!--vue组织默认行为-->
+        <!--阻止事件冒泡-->
+        <div class="myDiv" @click="showInfo7">
+            <a href="https://www.baidu.com" target="_blank" @click.stop="showInfo6">点我跳转</a>
+        </div>
+        <-- prevent阻止默认行为,stop阻止冒泡， once 事件只触发一次，self:只有event.target是当前操作的元素时才触发事件，passive:事件的默认行为立即执行，无需等待事件回调执行完毕-->
+
+    </div>
+    <script>
+                Vue.config.productionTip=false;
+                let x='xjh';
+                const vm=new Vue({
+                    data(){
+                      return {
+                          name: x,
+                          get:function(){
+                              x=x+'666';
+                              return x+"666";
+                          },
+                          set(v){
+                            x=v;
+                          },
+                          showInfo4(number){
+                              alert(number);
+                              console.log(number);
+                          }
+                      }
+                    },
+                    methods:{
+                        showInfo :function(a,b,c,d){//对象里面函数，除了name:function name(){},还可以 name: function(){},或者直接方法名 name（）{} 就可以了 ,这是es6的写法   ,
+                            console.log(event);
+                            console.log(event.target.innerHTML);
+                            console.log(vm===this);//此处的this===vm
+                            alert("ColorXJH");
+                        },
+                        showInfo2:(event)=>{
+                            console.log(this===window);//此处的this===vm
+                            console.log(this);//此处的this===Window,因为箭头函数没有自己的this,往外找就找到了全局的this,window，所有我们在接受了vue所管理的函数，我们不能写箭头函数
+                        },
+                        showInfo3(number){
+                            console.log(event.target);
+                            console.log(number);
+                            alert("showInfo3");
+                        },
+                        showInfo5(e){
+                            e.preventDefault();//阻止标签的默认行为，跳转地址
+                            alert("同学你好55");
+                        },
+                        showInfo6(e){
+                            //e.stopPropagation();//阻止事件冒泡，或者使用vue的事件修饰符，@click.stop="showInfo6"
+                            alert("同学你好666");
+                        },
+                        showInfo7(e){
+                            alert("同学你好777");
+                        },
+                    }
+                });
+                setTimeout(()=>{
+                    vm.$mount("#root");
+                },1000)
+
+
+    </script>
+</body>
+</html>
