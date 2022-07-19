@@ -12,7 +12,20 @@
             height: 50px;
             background-color: skyblue;
         }
+        .myDiv1{
+            height: 50px;
+            background-color: orange;
+        }
+        .list{
+            height: 200px;
+            width: 200px;
+            background-color: pink;
+            overflow: auto;
+        }
+        li{
+            height: 100px;
 
+        }
     </style>
 </head>
 <body>
@@ -25,15 +38,56 @@
         <a href="https://www.baidu.com" target="_blank" @click="showInfo5">点我跳转</a>
         <a href="https://www.baidu.com" target="_blank" @click.prevent="showInfo6">点我跳转</a><!--vue组织默认行为-->
         <!--阻止事件冒泡-->
+        <!--点击分为两部，1：事件捕获 2；事件冒泡，默认是在事件冒泡的情况下处理事件，所以默认先处理事件showInfo6，然后是showInfo7-->
         <div class="myDiv" @click="showInfo7">
             <a href="https://www.baidu.com" target="_blank" @click.stop="showInfo6">点我跳转</a>
         </div>
-        <-- prevent阻止默认行为,stop阻止冒泡， once 事件只触发一次，self:只有event.target是当前操作的元素时才触发事件，passive:事件的默认行为立即执行，无需等待事件回调执行完毕-->
+
+        <button @click.once="showInfo8">点我多次无效</button>
+        <-- prevent阻止默认行为,stop阻止冒泡， once 事件只触发一次，capture:使用事件的捕获模式.self:只有event.target是当前操作的元素时才触发事件，passive:事件的默认行为立即执行，无需等待事件回调执行完毕-->
+        <!--对于div来说他的事件就在捕获阶段处理 。注意冒泡事件的event始终是你点击的那个-->
+        <div class="myDiv1" @click.capture="showInfo7">
+            <button @click="showInfo6">使用事件捕获模式</button>
+        </div>
+        <!--只有操作自身元素时才会触发事件-->
+        <div class="myDiv1" @click.self="showInfo7">
+            <button @click="showInfo6">只有操作自身元素时才会触发事件</button>
+        </div>
+        <!--SCROLL是给滚动条加的滚动事件，wheel:鼠标滚轮的滚动，
+        对于滚动条事件他被优化过了，但是滚轮事件如果在处理函数时比较耗时，则滚动条会在函数处理后才会动起来,passive属性可以不等待，直接返回
+         对于移动端的项目，平板，手机 passive可能会使用一下-->
+        <ul @wheel.passive="demo" class="list">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+            <!--keydown /keyup 按下/抬起来 触发事件- .enter修饰 代表回车-->
+        <!--enter delete esc space tab up down left right-->
+        <!--对于这样的CapsLock，多个单词组成的 每个首字母要小写，中间用-连接起来：caps-lock
+        对于单个的单词就直接拿过来使用Enter,键盘上也不是所有的按键都能绑定事件，因为有的按键捕获不到，属于外接键位，比如控制音量，亮度
+        大小的键位，对于大部分键位，他都有一个名称以及对一个的代码，对于部分按键比如tab，他本身就有将元素从焦点移走邓恩，在我们按下键位时，不用等抬起来
+        他已经把焦点移走了，对于这类键位，我们推荐使用keydown,而不是使用keyup,还有4给按键比较特殊：ctrl,shift,alt,meta(win键)
+        对于这类系统修饰键，配合keyup的时候就是需要按下他们并配合其他按键，当释放其他按键时才会触发
+        通过其他方式给按键监听-键码也可以：@keydown.13="xxx",这种方式不被推荐，未来可能会移除，不同的键盘可能键码不统一->
+        vue也可以自定义键名： 见代码如下
+        -->
+        <input  type="text" placeholder="按下回车提示输入" @keydown.huiche="showInfo9">
+
+
+
+
+
+
 
     </div>
     <script>
                 Vue.config.productionTip=false;
+                //vue也可以自定义键名：
+                Vue.config.keyCodes.huiche=13//定义了一个别名按键（回车）
                 let x='xjh';
+                const x1=new Date();
+                let num=0;
                 const vm=new Vue({
                     data(){
                       return {
@@ -73,11 +127,41 @@
                         },
                         showInfo6(e){
                             //e.stopPropagation();//阻止事件冒泡，或者使用vue的事件修饰符，@click.stop="showInfo6"
+                            console.log(event.target);
                             alert("同学你好666");
                         },
                         showInfo7(e){
+                            console.log(event.target);
                             alert("同学你好777");
                         },
+                        showInfo8(e){
+                            /*const x=new Date();
+                            if(x!=x1){
+                                num++
+                            }
+                            if(num!=1){
+
+                            }else{
+                                alert("showInfo8----");
+                            }*/
+                            alert("showInfo8----");
+                        },
+                        demo(){
+                            /*for (let i = 0; i < 100000; i++) {
+                                console.log('@');
+                            }*/
+                            console.log('累坏了');
+
+                        },
+                        showInfo9(e){
+
+                            /*if(e.keyCode!=13){//原生js判断
+                                return;
+                            }*/
+                            console.log(e.key,e.keyCode);//按键的名字，编码
+                            console.log(e.target.value);
+                        }
+
                     }
                 });
                 setTimeout(()=>{
