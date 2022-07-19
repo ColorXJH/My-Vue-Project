@@ -74,9 +74,13 @@
         -->
         <input  type="text" placeholder="按下回车提示输入" @keydown.huiche="showInfo9">
 
+        <!--即阻止冒泡又阻止默认事件，事件修饰符可以连着写-->
+        <div class="myDiv" @click="showInfo7">
+            <a href="https://www.baidu.com" target="_blank" @click.stop.prevent="showInfo6">点我跳转111</a>
+        </div>
 
-
-
+        <!--系统修饰符后面可以加上特定的字母表示这两个键位连在一起才触发，不然是配合任意键触发-->
+        <input  type="text" placeholder="按下ctrl+y提示输入" @keyup.ctrl.y="showInfo9">
 
 
 

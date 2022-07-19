@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性-各种实现</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        姓：<input type="text"  v-model="firstName"><br>
+        名：<input type="text"  v-model="lastName"><br>
+        xt：<input type="text"  v-model="xt"><br>
+        全名：<span>{{firstName.slice(0,3)}}-{{lastName.slice(0,3)}}</span><br>
+        <!--data中的所有属性，最后都出现在了vm身上，{{}}可以展示vue接管的所有属性和方法，包括其原型上的东西-->
+        <!--只要data中的数据发生改变，vue会重新解析模板-->
+        全名methods：<span>{{fullName()}}</span><br><!--methods没有缓存-->
+        <!--vue认为data中的项为属性，多次读取只调用一次get,之后读取fullNames缓存了-->
+        全名-计算属性：<span>{{fullNames}}</span><br>
+        全名-计算属性：<span>{{fullNames2}}</span><br>
+        全名-计算属性：<span>{{fullNames3}}</span><br>
+        <!--读的时data中的属性？，methods中的方法， computed中的计算属性？-->
+    </div>
+    <script>
+      Vue.config.productionTip=false;//阻止生产提示
+      let xq=888;
+        const vm=new Vue({
+            el:"#root",
+            data(){//配置在这里面的数据会被代理，getter/setter
+                return{//些什么vm放什么
+                    firstName:'张',
+                    lastName:'三',
+                    xt:123
+                }
+            },
+            computed:{//vm自动找到其中get，并调用，返回值放在vm身上，他的名字叫fullNames,即他是通过已有的属性计算得到的，这些属性要在vue管理之内，修改才会发生变化
+                      //底层借助Object.defineProperty方法提供的getter/setter实现，存在缓存机制效率更高，比起methods,
+                //计算属性会最终出现在vm身上，直接读取便可，计算属性要被修改则需要写set函数，且set中要有引起计算时依赖的数据发生改变
+                fullNames:{
+                    //get作用：当有人读取fullName时，就会被调用，返回值就为fullName值
+                    //get什么时候调用：1：初次读取fillNames时，2：所依赖的数据发生变化时
+                    get(){
+                        console.log('get被调用了');
+                        return  this.firstName+'-'+this.lastName;//此处的this==vm，这是vue帮我们调整好的,注意不要写成箭头函数
+                    },
+                    //当fullNames被修改时会被调用
+                    set(v){
+                        console.log('-0---0--');
+                        const arr=v.split('-');
+                        this.firstName=arr[0];
+                        this.lastName=arr[1];
+                        xq++;//如果只修改这个不会触发fullNames修改
+                        //this.fullNames='xxxxx???';//循环引用执行 console.log('-0---0--');
+                    }
+                },
+                //简写形式：只读不改,fullNames2()当get()用，函数名当当作计算属性名称,属于es6的简写形式
+                fullNames2(){
+                    return  this.firstName+'-'+this.lastName;//此处的this==vm，这是vue帮我们调整好的,注意不要写成箭头函数
+                },
+                fullNames3:function(){//同上
+                    return  this.firstName+'-'+this.lastName;//此处的this==vm，这是vue帮我们调整好的,注意不要写成箭头函数
+                }
+            },
+            methods:{//些什么vm显示什么·
+                fullName(){
+                    return this.firstName.slice(0,3)+"-"+this.lastName.slice(0,3);
+                },
+                x(){
+                    return '111'
+                },
+            }
+
+        })
+
+    </script>
+</body>
+</html>
