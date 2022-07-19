@@ -13,14 +13,22 @@
 </div>
 <div id="root">
     <h1>指令语法</h1>
+    <h1>{{myName}}</h1>
     <a v-bind:href="url" v-bind:value="hello">{{hello}}</a>
     <a :href="url" :value="hello">点我去尚硅谷学习2</a>
     <input type="text" v-model:value="value1">
     <input type="text" :value="value1">
     <input type="text" v-model="value1">
 </div>
+<div id="roots">
+    hello world {{name}}<br>
+    <button v-on:click="showInfo">点我提示信息</button>
+</div>
+
+
+
     <script type="text/javascript">//type可以不写，默认维 type="text/javascript"
-        Vue.config.productionTip=false;//阻止启动产生的提示
+        Vue.config.productionTip=false;//阻止启动产生的 提示
         new Vue({
             el: "#app",
             data: {
@@ -29,12 +37,68 @@
         }
 
         });
-        new Vue({
-            el:"#root",
-            data:{
-                url:"http://www.atguigu.com",
-                hello:"你好",
-                value1:"你好啊"
+        const  v=new Vue({
+            //el:"#root",
+            /*data:function (){
+                return {
+                    url:"http://www.atguigu.com",
+                    hello:"你好",
+                    value1:"你好啊"
+                }
+            }*/
+            data(){
+                return {
+                    url:"http://www.atguigu.com",
+                    hello:"你好",
+                    value1:"你好啊",
+                    myName:'1234'
+                }
+            }
+        });
+        console.log(v);
+
+        setTimeout(()=>{
+            v.$mount("#root");
+        },1000)
+        let person={
+            name:'张三'
+        }
+        let xn=125;
+        Object.defineProperties(person,{
+           age:{
+            //value:19,
+            //enumerable:true,
+            //writable:true,
+            //configurable:true,
+            get:function (){
+                return  xn;
+            },
+            set(v){
+                xn=v;
+            }
+           },
+            price:{
+                value:'123'
+            }
+        })
+        console.log(Object.keys(person))
+        for (const personKey in person) {
+            console.log(personKey);
+            console.log(person[personKey]);
+        }
+
+        const vms=new Vue({
+            el:"#roots",
+            data(){
+                return{
+                    name:'ColorXJH'
+                }
+            },
+            methods:{
+                showInfo(){
+                    console.log("xixixi");
+                    alert('xxx');
+                }
             }
         });
     </script>
