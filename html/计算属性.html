@@ -206,7 +206,8 @@
                 firstName123(newVal,oldVal){
                     //computed能完成的功能，watch都可以完成，watche能完成的，computed不一定能完成，比如异步操作
                     //所有被vue管理的函数，最好写成普通函数，这样this的指向才是vm或者组件实例对象
-                    //所有不被vue所管理的函数（定时器的回调函数，ajax的回调函数等），最好写成箭头函数，这样this的指向才是vm或者组件实例对象
+                    //所有不被vue所管理的函数（定时器的回调函数，ajax的回调函数等,promise的回调函数），最好写成箭头函数，这样this的指向才是vm或者组件实例对象
+                    //目标只有一个，让this指向vm或者组件实例
                     setTimeout(()=>{
                         this.fullName123= newVal+'=='+this.lastName123;
                     },1000)

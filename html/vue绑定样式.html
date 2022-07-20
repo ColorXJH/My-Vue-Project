@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue绑定样式</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <style>
+        .basic{
+            width:100px;
+            height: 100px;
+            background-color: wheat;
+            border: 1px solid black;
+        }
+        .happy{
+            width:100px;
+            height: 100px;
+            background-color: skyblue;
+            border: 1px solid red;
+        }
+        .sad{
+            width:100px;
+            height: 100px;
+            background-color: gray;
+            border: 1px solid darkblue;
+        }
+        .normal{
+            width:100px;
+            height: 100px;
+            background-color: orangered;
+            border: 1px solid pink;
+        }
+        .test1{
+            width:100px;
+            height: 100px;
+            background-color: deeppink;
+            border: 1px solid orange;
+        }
+        .test2{
+            width:100px;
+            height: 100px;
+            background-color: peachpuff;
+            border: 1px solid olive;
+        }
+        .test3{
+            width:100px;
+            height: 100px;
+            background-color: pink;
+            border: 1px solid blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!--绑定class样式,字符串写法，适用于样式的类名不确定，需要动态指定-->
+        <!--class='basic' class='normal'在页面只会显示basic,后面写的class不奏效了-->
+        <div class="basic " :class="mood" id="mydiv" @click="changeMood">
+            {{name}}
+        </div>
+        <!--绑定class样式，数组写法，适用于：要绑定的样式个数不确定，名字也不确定-->
+        <div class="basic " :class="arr">
+            {{name}}
+        </div>
+
+        <!--注意 如果:class="['test1','test2','test3']" 这样写也是可以的，vue{{}}}内写表达式，这个数组就是表达式
+        然后vue开始解析，并将其拼接在原始class后面，但是这个之后就不会再修改了，没什么特别意义，只是可以运行，但是如果写成
+        [test1,test2,test3] 就不行了，因为这个vue拿去解析，发现这个数组内部是属性，如果是字符串会直接拿去使用，但是这个属于属性，
+        他会在data中找有没有这个属性，如果想这样使用，则需要在data中配置这三个属性-->
+
+        <!--绑定class样式 对象写法，适用于：要绑定的样式个数确定，名字确定，但是要动态决定用不用-->
+        <div class="basic " :class="classObj">
+            {{name}}111
+        </div>
+        <div class="basic " :class="{test1:true,test2:false}">
+            {{name}}222
+        </div>
+        <!--原始属性 style="font-size:40px;"-->
+        <div class="basic " :style="{fontSize:fsize+'px'}">
+            {{name}}222
+        </div>
+        <!--绑定style样式- 对象写法-->
+        <div class="basic " :style="styleObj">
+            {{name}}333
+        </div>
+        <!--绑定style样式- 数组写法-->
+        <div class="basic " :style="[styleObj,styleArr]">
+            {{name}}444
+        </div>
+
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        const vm=new Vue({
+            el:'#root',
+            data:{
+                name:'ColorXJH',
+                mood:'normal',
+                arr:['test1','test2','test3'],
+                classObj:{
+                    test1:false,
+                    test2:false
+                },
+                fsize:40,
+                styleObj:{
+                    fontSize: '44px' ,
+                },
+                styleArr:{
+                    color:'red',
+                    backgroundColor:'pink'
+                },
+            },
+            methods:{
+                changeMood(){
+                    //document.querySelector("#mydiv").className="basic happy";//不要操作原始的额数据，不然就不需要vue了
+                    //this.mood='happy';
+                    const moods=['happy','sad','normal'];
+                    //Math.random()=>[0,1)
+                    const index=Math.floor(Math.random()*3);
+                    this.mood=moods[index];
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
