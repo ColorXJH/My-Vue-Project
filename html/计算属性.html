@@ -19,6 +19,28 @@
         全名-计算属性：<span>{{fullNames2}}</span><br>
         全名-计算属性：<span>{{fullNames3}}</span><br>
         <!--读的时data中的属性？，methods中的方法， computed中的计算属性？-->
+
+    </div>
+    <!--天气检测片段-->
+    <div id="root2">
+        <h2>今天天气很{{info}},{{x}}</h2>
+        <!--监视-->
+        <button @click="changeWeather">切换天气</button>
+        <!--@click后面可以写一些简单得语句-->
+        <button @click="isHot=!isHot;x++">切换天气</button>
+        <button @click="window.alert('1')">切换天气</button><br>
+        <h3>a的值是:{{numbers.a}}</h3>
+        <button @click="numbers.a++">点我a+1</button>
+        <h3>b的值是:{{numbers.b}}</h3>
+        <button @click="numbers.b++">点我b+1</button>
+    </div>
+
+    <div id="root3">
+        姓：<input type="text"  v-model="firstName123"><br>
+        名：<input type="text"  v-model="lastName123"><br>
+        全名监控：<span>{{fullName123}}</span><br><br>
+        全面计算属性：<span>{{fullName1234}}</span><br>
+        {{a}}
     </div>
     <script>
       Vue.config.productionTip=false;//阻止生产提示
@@ -71,6 +93,130 @@
 
         })
 
+      const vm2=new Vue({
+          el:"#root2",
+          data:{
+              isHot:true,
+              x:1,
+              window,
+              numbers:{
+                  a:1,
+                  b:1
+              }
+          },
+          methods:{
+              changeWeather(){
+                this.isHot=! this.isHot;
+              }
+          },
+          computed: {
+              info :{
+                 get(){
+                     return this.isHot?'炎热':'凉爽';
+                 },
+                  set(v){
+                     this.isHot=v;
+                  }
+              }
+          },
+          watch:{
+              /*isHot:{
+                  //当info2发生改变时发生调用
+                  handler(newValue,oldValue){
+                      console.log("isHot被修改了",newValue,oldValue);
+                  },
+                  immediate:true//初始化时让handler调用一下
+              },*/
+              /*'isHot':{
+                  //当info2发生改变时发生调用
+                  handler(newValue,oldValue){
+                      console.log("isHot被修改了",newValue,oldValue);
+                  },
+                  immediate:true//初始化时让handler调用一下
+              },*/
+              info:{
+                  //当info2发生改变时发生调用
+                  handler(newValue,oldValue){
+                      console.log("info被修改了",newValue,oldValue);
+                  },
+                  immediate:true//初始化时让handler调用一下
+              },
+              //监视多级结构中的某个属性的变化
+              /*'numbers.a':{
+                    handler(){
+                        console.log('a改变了')
+                    }
+              },*/
+              'numbers':{
+                  //vue默认是可以监控到多层级的改变的，但是给我们配置的watch监控默认是不行的，如果想开启，则添加下面配置deep
+                  deep:true,//开启深度监控
+                  handler(){
+                      console.log('numbers改变了')
+                  }
+              },
+              //当配置项中只有handler的侍候就可以简写
+              isHot(newVal,oldVal){
+                console.log('isHot被修改了777',newVal,oldVal);
+              }
+          }
+
+      })
+      //这种方法也能监视
+      vm2.$watch('isHot',{
+          handler(newValue,oldValue){
+              console.log("isHot被修改了",newValue,oldValue);
+          },
+          immediate:true//初始化时让handler调用一下
+      })
+      vm2.$watch('isHot2',function (newValue,oldValue){
+          console.log("isHot2被修改了",newValue,oldValue);
+      })
+        //监视属性：
+            //1:当被监视得属性发生变化时，回调函数自动调用，进行相关操作
+            //2:监视得属性必须存在，才能进行监视
+            //3:监视得两种写法
+
+
+      const vm3=new Vue({
+            data(){
+                return {
+                    firstName123:'xjh',
+                    lastName123:'123',
+                    fullName123:'xjh-123',
+                    x:1,
+                    y:2
+                }
+            },
+            computed:{
+                a(){
+                    return this.x+this.y;
+                },
+                fullName1234(){
+                    return this.firstName123+"--"+this.lastName123;
+                    //注意下方的写法是错误的实现不了的，因为我们把返回值给了定时任务中的函数了，无法返回给fullName1234
+                    //所以这个属性的返回值为undefined
+                    /*setTimeout(()=>{
+                        return this.firstName123+"--"+this.lastName123;
+                    },1000)*/
+
+                }
+            },
+            watch:{//监控比计算属性实现稍微麻烦一点，需要提前准备好要监控的属性，并且分别监控原始属性
+                    //但是watch监听中可以开启异步任务，计算属性靠返回值提供值，我们无法让这个函数等一等才有返回值
+                firstName123(newVal,oldVal){
+                    //computed能完成的功能，watch都可以完成，watche能完成的，computed不一定能完成，比如异步操作
+                    //所有被vue管理的函数，最好写成普通函数，这样this的指向才是vm或者组件实例对象
+                    //所有不被vue所管理的函数（定时器的回调函数，ajax的回调函数等），最好写成箭头函数，这样this的指向才是vm或者组件实例对象
+                    setTimeout(()=>{
+                        this.fullName123= newVal+'=='+this.lastName123;
+                    },1000)
+                },
+                lastName123(newVal,oldVal){
+                    this.fullName123=this.firstName123+'--'+newVal;
+                }
+            }
+      });
+      vm3.$mount("#root3");
     </script>
 </body>
 </html>
