@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表渲染</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1>遍历数组</h1>
+        <ul>
+            <li v-for="(p,index) in persons" :key="p.id">{{p.name}}-{{p.age}}--{{index}}</li>
+            <li v-for="(p,index) in persons" :key="index">{{p.name}}-{{p.age}}</li>
+            <!--of 也行-->
+            <!--<li v-for="(p,index) of persons" :key="index">{{p.name}}-{{p.id}}</li>-->
+        </ul>
+        <h1>遍历对象</h1>
+        <ul>
+            <li v-for="(value,key) in car" :key="key">{{value}}-{{key}}</li>
+        </ul>
+        <h1>遍历字符串</h1>
+        <ul>
+            <li v-for="(char,index) in str" :key="index">{{char}}-{{index}}</li>
+        </ul>
+        <h1>遍历指定次数</h1>
+        <!--number:从1开始， index：从0开始-->
+        <ul>
+            <li v-for="(number,index) in 5" :key="index">{{number}}-{{index}}</li>
+        </ul>
+    </div>
+    <!--v-for指令用于展示列表数据 v-for="(item,index) in xxx" :key="yyy",可以遍历数组，对象，字符串，指定次数-->
+
+
+
+    <!--key的原理-->
+    <!--使用index：当不改变数据结构顺序时们就可以使用，当改变了原始的数据结构顺序（逆序添加，删除）就会导致vue在内部使用虚拟dom时，运用diff算法不能有效的进行对比产生错误（在某些情况下：包含输入dom时 ）-->
+    <!--当不使用key的时候，会造成vue效率缓慢，也会造成上方问题，以为即使你不写key,vue会默认将遍历的index做为key来在vue内部的虚拟dom上使用-->
+    <!--当使用数据唯一标识id做为key时，就不会产生问题-->
+    <div id="roots">
+        <h1>遍历数组</h1>
+        <button @click.once="addPerson">添加一个老刘</button>
+        <ul>
+            <li v-for="(p,index) in persons" :key="p.id">{{p.name}}-{{p.age}}
+            <input type="text">
+            </li>
+        </ul>
+    </div>
+
+    <div id="root1">
+        <h1>人员列表</h1>
+        <input type="text" placeholder="请输入名字" v-model="keyWorld">
+        <!--监视watch-->
+        <ul>
+            <li v-for="(p,index) in fillPersons" :key="p.id">{{p.name}}-{{p.age}}--{{p.sex}}
+            </li>
+        </ul>
+        <!--计算属性-->
+        <ul>
+            <li v-for="(p,index) in fillPersons2" :key="p.id">{{p.name}}-{{p.age}}--{{p.sex}}
+            </li>
+        </ul>
+
+    </div>
+    <div id="root2">
+    <!--列表排序-->
+        <h1>人员列表</h1>
+        <input type="text" placeholder="请输入名字" v-model="keyWorld">
+        <button @click="sortType=1">年龄升序</button>
+        <button @click="sortType=2">年龄降序</button>
+        <button @click="sortType=0">原顺序</button>
+        <ul>
+            <li v-for="(p,index) in fillPersons2" :key="p.id">{{p.name}}-{{p.age}}--{{p.sex}}
+            </li>
+        </ul>
+
+        <!--更新时的一个问题-->
+        <h1>人员列表更新时的一个问题</h1>
+        <button @click="updateMei">更新马冬梅的信息</button>
+        <ul>
+            <li v-for="(p,index) in persons" :key="p.id">{{p.name}}-{{p.age}}--{{p.sex}}
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+        const vm=new Vue({
+            el:'#root',
+            data:{
+                persons:[
+                    {id:'001',name:'张三',age:18},
+                    {id:'002',name:'李四',age:19},
+                    {id:'003',name:'王五',age:20}
+                ],
+                car:{
+                    name:'奥迪A8',
+                    price:'70W',
+                    color:'black'
+                },
+                str:'abcdef'
+            }
+        });
+        const vm2=new Vue({
+            el:'#roots',
+            data:{
+                persons:[
+                    {id:'001',name:'张三',age:18},
+                    {id:'002',name:'李四',age:19},
+                    {id:'003',name:'王五',age:20}
+                ]
+            },
+            methods:{
+                addPerson(){
+                    const p={id:'004',name:'老刘',age:40}
+                    this.persons.unshift(p);
+                }
+            }
+        });
+        const vm3=new Vue({
+            el:'#root1',
+            data:{
+                keyWorld:'',
+                persons:[//alt+鼠标：多列修改
+                    {id:'001',name:'马冬梅',age:18,sex:'女'},
+                    {id:'002',name:'周冬雨',age:19,sex:'女'},
+                    {id:'003',name:'周杰伦',age:20,sex:'男'},
+                    {id:'004',name:'温兆伦',age:21,sex:'男'},
+                ],
+                fillPersons:[]
+            },
+            /*wathc实现*/
+            watch:{
+                keyWorld:{
+                    immediate:true,//字符串是包含空字符串的，可以使用立即执行查找，来初始化操作显示数据
+                    handler(val){
+                        console.log("keyWorld被改了",val);
+                        this.fillPersons=this.persons.filter((p)=>{
+                            return p.name.indexOf(val)!==-1;
+                        })
+                    }
+
+                }
+            },
+            /*计算属性实现*/
+            computed:{
+                fillPersons2(){
+                  return  this.persons.filter((p)=>{
+                        return p.name.indexOf(this.keyWorld)!==-1;
+                    })
+                }
+            },
+            methods:{
+                addPerson(){
+                    const p={id:'004',name:'老刘',age:40}
+                    this.persons.unshift(p);
+                }
+            }
+        });
+        const vm4=new Vue({
+            el:"#root2",
+            data:{
+                keyWorld:'',
+                sortType:0,//0:原顺序，1：降序 2：升序
+                persons:[//alt+鼠标：多列修改
+                    {id:'001',name:'马冬梅',age:18,sex:'女'},
+                    {id:'002',name:'周冬雨',age:19,sex:'女'},
+                    {id:'003',name:'周杰伦',age:20,sex:'男'},
+                    {id:'004',name:'温兆伦',age:21,sex:'男'},
+                ],
+            },
+            /*计算属性实现*/
+            computed:{
+                fillPersons2(){
+                    const fp=  this.persons.filter((p)=>{
+                        return p.name.indexOf(this.keyWorld)!==-1;
+                    })
+                    if(this.sortType){
+                        fp.sort((p1,p2)=>{//排序，前-后 升序   后-前 降序
+                            return this.sortType===1? p1.age-p2.age:p2.age-p1.age;
+                        })
+                    }
+                    return fp;
+                }
+            },
+            methods:{
+                updateMei(){
+                    //有效
+                    /*this.persons[0].name='马老师';
+                    this.persons[0].age=50;
+                    this.persons[0].sex='男';*/
+                    this.persons[0]={id:'001',name:'马老师',age:50,sex:'男'};
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>
