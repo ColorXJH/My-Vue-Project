@@ -26,7 +26,12 @@
 </div>
 
 
-
+    <!--
+    1：插值语法：用于解析标签体内容，{{xxx}},xxx是js表达式，且可以直接读取到data中的所有属性
+    2：指令语法：用于解析标签（包括：标签属性，标签体内容，绑定事件。。。）
+        举例：v-bind:href="xxx" 或 :href="xxx" xxx同样要写js表达式，且可以直接读取到data中的所有属性
+        备注：vue中有很多指令，形式都是v-???,这里知识举例v-bind
+    -->
     <script type="text/javascript">//type可以不写，默认维 type="text/javascript"
         Vue.config.productionTip=false;//阻止启动产生的 提示
         new Vue({
