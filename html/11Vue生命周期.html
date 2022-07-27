@@ -7,12 +7,18 @@
 </head>
 <body>
     <div id="root">
-        <h2 style="opacity: 1">欢迎学习Vue</h2>
+        <h2 v-if="a" style="opacity: 1">欢迎学习Vue</h2>
         <!--:style="{css属性：绑定得属性}"，如果充满就对象得简写形式-->
         <h2 :style="{opacity: opacity}">欢迎学习Vue</h2>
         <h2 :style="{opacity}">欢迎学习Vue</h2>
     </div>
-
+    <!--
+        生命周期：
+            1：又名：生命周期回调函数，生命周期函数，生命周期钩子
+            2：是什么：vue在关键的时刻帮我们调用的一些特殊名称的函数
+            3：生命周期函数的名字不可变更，但是函数的具体内容是程序员根据需求编写的
+            4：生命周期函数中的this指向的是vm或者组件实例对象
+    -->
 </body>
 <script type="text/javascript">
        Vue.config.productionTip=false;
@@ -20,6 +26,7 @@
            el:'#root',
            data:{
                opacity:1,
+               a:false
            },
            methods:{
 
@@ -31,9 +38,13 @@
            * 步骤： vue找到了代码模板，开始解析变成虚拟dom,然后就往真实dom上转，然后就把真实dom元素放入页面（这一步就是挂载）
            *
            * */
-           //vue完成模板得解析，并把真实的dom元素放入页面后调用mounted
+           //vue完成模板得解析，并把初始的真实的dom元素放入页面后(挂载完毕)调用mounted
            mounted(){
-
+                console.log("mounted被调用了");
+                setInterval(()=>{
+                    this.opacity-=0.01;
+                    if(this.opacity<=0){this.opacity=1}
+                },16)
            }
 
        });
