@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue生命周期 </title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2 style="opacity: 1">欢迎学习Vue</h2>
+        <!--:style="{css属性：绑定得属性}"，如果充满就对象得简写形式-->
+        <h2 :style="{opacity: opacity}">欢迎学习Vue</h2>
+        <h2 :style="{opacity}">欢迎学习Vue</h2>
+    </div>
+
+</body>
+<script type="text/javascript">
+       Vue.config.productionTip=false;
+       const vm=new Vue({
+           el:'#root',
+           data:{
+               opacity:1,
+           },
+           methods:{
+
+           },
+           /*生命周期*/
+
+           /*挂载完毕*/
+           /*
+           * 步骤： vue找到了代码模板，开始解析变成虚拟dom,然后就往真实dom上转，然后就把真实dom元素放入页面（这一步就是挂载）
+           *
+           * */
+           //vue完成模板得解析，并把真实的dom元素放入页面后调用mounted
+           mounted(){
+
+           }
+
+       });
+
+       /*页面刚加载得时候启用*/
+       /*window.onload=()=>{
+           vm.change();
+       }*/
+       /*通过外部得定时器实现，不推荐*/
+       /*setInterval(()=>{
+           vm.opacity-=0.01;
+           if(vm.opacity<=0){vm.opacity=1}
+       },16)*/
+</script>
+</html>
