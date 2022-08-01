@@ -20,9 +20,12 @@
             2：new Vue(options)配置中：data中的函数，methods中的函数，watch中的函数，computed中的函数，他们的this均是Vue实例对象
         5：VueComponent的实例对象：以后简称vc(也可称之为：组件实例对象)
            Vue的实例对象，以后简称vm
+        注意：vc和vm基本上相同，仅有vm参数el，vc属于vm的实例，属于被管理者，被vm所管理，其data参数也必须是个函数，用于返回独立拷贝
      一个重要的内置关系：
-        vc和vm基本上相同，仅有vm参数el，vc属于vm的实例，属于被管理者，被vm所管理，其data参数也必须是个函数，用于返回独立拷贝
-
+        VueComponent.prototype.__proto__===Vue.prototype    ===》VueComponent的原型对象的地制造者是Vue的原型对象
+        为什么要有这个关系：让组件实例对象vc都可以访问到Vue原型上的属性，方法
+                1：实例的隐式原型属性永远指向自己缔造者的原型对象：比如Vue实例的隐式原型属性指向Vue原型对象，Vue原型对象的隐式原型属性指向Object对象的原型对象，Object对象的隐式原型属性指向null(原型的尽头)
+                2：构造函数（类）的原型属性.prototype，指向它的这个函数（类）的原型对象
 
 
 -->
@@ -37,8 +40,15 @@
     const demo=new Demo();
     console.log(Demo.prototype);//显示原型属性
     console.log(demo.__proto__);//隐士原型属性
+    //不论是函数身上的显示原型属性还是对象上的隐式原型属性，他们都统统指向了一个对象，这个对象被我们称之为：原型对象
 
-    //创建school组件
+    //程序员通过显示原型属性操作原型对象，追加一个x属性，值为99
+    Demo.prototype.x=99;
+    console.log(demo.__proto__.x);
+    //Demo函数的实例对象，在她身上找不到属性，就去他的隐式原型对象上找x
+    console.log(demo.x);
+    console.log(demo.__proto__===Demo.prototype);
+    //创建school组件(它返回一个VueComponent函数)
     const school=Vue.extend({
         name:'MySchool',
         template:`
@@ -62,7 +72,10 @@
             school
         }
     });
-
+    console.log('验证内置关系是否存在',school.prototype.__proto__===Vue.prototype);
+    Vue.prototype.x=1080;
+    console.log(school.prototype.__proto__.x);
+    console.log(vm.x,school.prototype.x);
 
 </script>
 </html>
