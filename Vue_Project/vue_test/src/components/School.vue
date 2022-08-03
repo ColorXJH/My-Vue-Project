@@ -77,7 +77,7 @@
   //export default school
 
   export  default  {
-    name:'School',
+    name:'MySchool',
     data(){
       return {
         name:"广德中学",
