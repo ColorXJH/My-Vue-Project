@@ -1,6 +1,7 @@
 <template>
   <div>
-    <img src="./assets/logo.png" alt="logo">
+    <!--    <img src="./assets/logo.png" alt="logo">-->
+    <img src="./assets/test.jpg" height="200px" alt="test">
     <MySchool></MySchool>
   </div>
 </template>
