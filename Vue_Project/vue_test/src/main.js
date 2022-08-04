@@ -1,39 +1,15 @@
-//1：引入组件
+/*
+* 该文件是整个文件得入口文件
+* */
 
-//import Vue from "vue";
-//方法2：重新引入Vue
-import Vue from "vue/dist/vue.esm.js"
-import App from "./App";
-
+//引入vue
+import Vue from 'vue'
+//引入App组件，它是所有组件得父组件
+import App from './App.vue'
+//关闭vue的生产提示
 Vue.config.productionTip = false
-
-//2:创建vue
+//创建vue的实例对象--vm
 new Vue({
-    el:'#root',
-    //使用 template属性，需要引入带编译器的完整版的vue.esm.js
-    template:`<App></App>`,
-    components:{
-        App
-    },
-    //方法1：如下
-    //render: h => h(App),
-})
-
-
-//修改webpack.conf.js文件中vue所指向的js；
-/*
-configureWebpack: {
-    resolve: {
-        alias: {
-            'vue$':'vue/dist/vue.esm.js'
-        }
-    }
-}*/
-
-//方法4:在webpack.conf.js 中修改如下配置：
-/*
-module.exports = {
-    runtimeCompiler: true,
-    ......
-
-*/
+  //将App组件放入容器（#app）中
+  render: h => h(App),
+}).$mount('#app')
