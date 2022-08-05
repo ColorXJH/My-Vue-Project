@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h2 @click="showName">学校名称{{name}}</h2>
-    <h2>学校地址{{address}}</h2>
+    <h2>名称{{name}}</h2>
+    <h2>性别{{sex}}</h2>
+    <h2>年龄{{myAge+1}}</h2>
+    <button @click="updateAge">尝试修改年龄</button>
   </div>
 </template>
 
@@ -16,19 +18,21 @@
          }
        }
   })*/
-//引入混合（mixin）
-//import {datas, mixin} from '../mixin'
 export default {
-  name:'School',
+  name:'Student',
   data(){
     return {
-      name:"广德中学",
-      address:"安徽广德",
+      msg:"你好，欢迎",
       //props上的优先被接收，放到vc上，然后才是data上的
-      //myAge:this.age,
+      myAge:this.age,
     }
   },
-  //mixins:[mixin,datas],
+  methods:{
+    //属性接收到的尽量不要去修改
+    updateAge(){
+      this.myAge++;
+    }
+  },
   //props:["name","sex","age"]//简单接收
 
   //接收的同时对数据类型进行限制
@@ -39,7 +43,7 @@ export default {
   }*/
 
   //接收属性，类型限制，知否必须，附加默认值
-  /*props:{
+  props:{
     name:{
       type:String,
       required:true,
@@ -53,14 +57,14 @@ export default {
       type:String,
       required:true
     },
-  }*/
+  }
 }
 
 </script>
 
 <style>
   .demo{
-    background-color: orange;
+    background-color: pink;
   }
 
 </style>

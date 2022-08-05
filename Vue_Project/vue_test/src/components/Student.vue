@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h2 @click="showName">学校名称{{name}}</h2>
-    <h2>学校地址{{address}}</h2>
+    <h2 @click="showName">名称{{name}}</h2>
+    <h2>性别{{sex}}</h2>
+    <h2>年龄{{age}}</h2>
   </div>
 </template>
 
@@ -16,18 +17,22 @@
          }
        }
   })*/
-//引入混合（mixin）
+//1：引入混合
 //import {datas, mixin} from '../mixin'
 export default {
-  name:'School',
+  name:'Student',
   data(){
     return {
-      name:"广德中学",
-      address:"安徽广德",
+      msg:"你好，欢迎",
+      name:"张三",
+      sex:"男",
+      age:18,
       //props上的优先被接收，放到vc上，然后才是data上的
       //myAge:this.age,
     }
   },
+  //2:配置混合
+  //混合优先级比原来代码优先级低，但是如果混入了生命周期函数，则不以任何为准，都要
   //mixins:[mixin,datas],
   //props:["name","sex","age"]//简单接收
 
@@ -60,7 +65,7 @@ export default {
 
 <style>
   .demo{
-    background-color: orange;
+    background-color: pink;
   }
 
 </style>

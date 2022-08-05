@@ -1,13 +1,11 @@
 <template>
   <div>
-    <Student/>
-    <hr>
-    <School/>
+    <Student name="李四" sex="女" :age="18"/>
+    <Student name="张三" sex="男" />
   </div>
 </template>
 <script>
 import Student from "./components/Student";
-import School from "./components/School";
 export default {
   name:'App',
   data(){
@@ -19,7 +17,7 @@ export default {
     }
   },
   components:{
-    Student,School,
+    Student,
   }
 }
 
