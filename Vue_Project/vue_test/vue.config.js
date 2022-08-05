@@ -4,7 +4,8 @@ module.exports = defineConfig({
   pages:{
     index:{
       //入口
-      entry:"src/index/peiqi.js",
+      //entry:"src/index/peiqi.js",
+      entry:"src/main.js",
     }
   },
   //关闭语法检查

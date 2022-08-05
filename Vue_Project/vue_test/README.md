@@ -57,3 +57,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
   - 4：模块化有两种，一种是es6的一种是带commonjs的
 
 ##vue.config.js配置文件
+-- 参考官方文档
+
+##ref属性
+    1：被用来给元素或子组件注册引用信息（id的替代者）
+    2：应用在html标签上获取的是真是的dom元素，应用在组件标签上是组件实例对象vc
+    3：使用方式：
+        打标识：<h1 ref="xxx"></h1>  <School ref="xxx"/>
+        获取方式：this.$ref.xxx
+
+
