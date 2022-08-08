@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h2 @click="showName">名称{{name}}</h2>
+    <h2>名称{{name}}</h2>
     <h2>性别{{sex}}</h2>
     <h2>年龄{{age}}</h2>
+    <input type="text" v-fbind:value="name">
   </div>
 </template>
 
@@ -24,8 +25,8 @@ export default {
   data(){
     return {
       msg:"你好，欢迎",
-      name:"张三",
-      sex:"男",
+      name:"张三123",
+      sex:"男123",
       age:18,
       //props上的优先被接收，放到vc上，然后才是data上的
       //myAge:this.age,

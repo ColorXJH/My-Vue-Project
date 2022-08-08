@@ -100,3 +100,28 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
             1：全局混入:Vue.mixin(xxx)
             2：局部混入:mixins:['xxx']
         
+##插件
+    功能：用于增强vue
+    本质：包含install方法的一个对象，install的第一个参数是vue,第二个以后的参数是插件使用者传递的参数
+    定义插件：
+        对象.install=function(Vue,Options){
+                //增加一个全局过滤器
+                Vue.filter('name',function(){});
+                //定义一个全局指令
+                Vue.directive('name',options);
+                //定义混入
+                Vue.mixin(options)
+                //添加实例方法
+                Vue.prototype.$myMethod=function(){}
+                Vue.prototype.$myProperty=xxx;
+            }
+    使用插件：Vue.use(pluginname,args);
+
+##scoped样式
+    作用：让样式在局部生效
+    写法：<style scoped></style>
+    关于安装脚手架中默认识别less插件 less-loader，可能存在的版本冲突
+    一般是由于webpack版本与其不兼容导致
+    请使用低版本less-loader  =>npm i less-loader@6
+    卸载请用： npm uninstall --save less-loader
+

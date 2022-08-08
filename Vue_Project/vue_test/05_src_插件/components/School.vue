@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h2 @click="showName">学校名称{{name}}</h2>
-    <h2>学校地址{{address}}</h2>
+    <h2 >学校名称:{{name | mySlice }}</h2>
+    <h2>学校地址:{{address}}</h2>
+    <button @click="testPrototype">点我测试一下hello方法</button>
   </div>
 </template>
 
@@ -22,10 +23,15 @@ export default {
   name:'School',
   data(){
     return {
-      name:"广德中学",
-      address:"安徽广德",
+      name:"广德123",
+      address:"安徽123",
       //props上的优先被接收，放到vc上，然后才是data上的
       //myAge:this.age,
+    }
+  },
+  methods:{
+    testPrototype(){
+      this.hello();
     }
   },
   //mixins:[mixin,datas],
