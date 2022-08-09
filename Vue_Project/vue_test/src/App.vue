@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       //由于todos是MyHeader组件和MyFooter组件都在使用，所以放在app中（状态提升）
+      //数据在哪里，对数据得操作就定义在哪里
       todos:[
         {id:'001',title:'看书',done:true},
         {id:'002',title:'学习',done:false},

@@ -9,7 +9,7 @@
 import {nanoid} from 'nanoid';
 export default {
   name: 'MyHeader',
-  props:['addTodo'],
+  props:['addTodo'],//优先级比较高
   data(){
     return{
       title:'',//收集用户输入的title
