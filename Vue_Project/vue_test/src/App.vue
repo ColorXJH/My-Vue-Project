@@ -14,7 +14,8 @@
 
     <!-- 或者使用如下方法也能实现   this.$refs.student拿到这个组件实例对象-->
     <!--  更自由灵活  -->
-    <School ref="schools"/>
+    <!-- 组件标签也可以绑定原生事件  注意并不是@click，dom元素上是这样，但是组件上需要加上.native -->
+    <School ref="schools" @click.native="show"/>
   </div>
 </template>
 <script>
@@ -43,17 +44,38 @@ export default {
     m2(name,...a){
       console.log("demoss事件被触发了---")
     },
+    show(){
+      alert(123);
+    },
   },
   components:{
     Student,School,
   },
   mounted() {
-   setTimeout(()=>{
-     //this.$refs.schools.$on("colorxjh",this.myFun)
+    //注意：这里如果把myFun写成回调函数直接在这里写，其中的this就会指向被注册的哪个vc实例对象,而不是当前实例对象
+    //原则：谁触发了整个事件，这个回调函数中的this就指向哪个vc实例对象
+    this.$refs.schools.$on("colorxjh",function (name,...a){
+      console.log(this);
+    });
 
-     //只触发一次
-     this.$refs.schools.$once("colorxjh",this.myFun)
-   },3000);
+    //如下写就不会有这样的问题，因为同样的this.myFun中的this指向的是schools组件实例对象，但是这个方法又被包装在了app实例对象的methods中
+    //vue给过我们承诺，就是写在本实例对象中普通函数的this一定指向本实例
+    this.$refs.schools.$on("colorxjh",this.myFun);
+
+    //同样将最上方的写法改换成箭头函数也能避免这个问题,因为回调函数里的this本来是schools组件实例对象，但是写成了箭头函数，箭头函数没有this
+    //它就像外层找，找到mounted方法，这个方法的this就是app实例对象
+    this.$refs.schools.$on("colorxjh", (name,...a)=>{
+      console.log(this);
+    });
+
+
+    /*setTimeout(()=>{
+      //this.$refs.schools.$on("colorxjh",this.myFun)
+
+      //只触发一次
+      this.$refs.schools.$once("colorxjh",this.myFun)
+
+    },3000);*/
   },
 }
 
