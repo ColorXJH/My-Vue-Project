@@ -9,10 +9,5 @@ window.name="xjh";
 //创建vm
 new Vue({
     el:'#root',
-    render:h=>h(App),
-    mounted() {
-        setTimeout(()=>{
-            this.$destroy();//他自己及其下属的所有自定义事件都销毁了
-        },4000);
-    }
+    render:h=>h(App)
 });

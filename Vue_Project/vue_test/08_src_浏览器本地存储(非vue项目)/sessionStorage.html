@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--  浏览器关闭就没有了，一次会话结束，其api于localStorage API完全一直  -->
+    <title>浏览器本地存储-sessionStorage</title>
+</head>
+<body>
+<h2>sessionStorage</h2>
+<button onclick="saveData()">点我保存一个数据</button><br/>
+<button onclick="readData()">点我读取一个数据</button><br/>
+<button onclick="deleteData()">点我删除一个数据</button><br/>
+</body>
+<script>
+    function saveData(){
+        //window身上的可以直接写sessionStorage,kv都是字符串,都将转换为字符串(不是的话将调用toString方法转换为string类型)
+        let p={name:'张三',age:18}
+        window.sessionStorage.setItem('msg','hello');
+        sessionStorage.setItem('msg2',666);
+        sessionStorage.setItem('person',p);//存储的是对象的 toString形式
+        console.log(p.toString());
+        sessionStorage.setItem('person2',JSON.stringify(p));
+    }
+    //读出来的是字符串
+    function readData(){
+        const p=sessionStorage.getItem("person2");
+        console.log(sessionStorage.getItem("person2"));
+        //解析一下字符串，变成对象
+        console.log(JSON.parse(p));
+        console.log(sessionStorage.getItem("msg2"));
+        console.log(sessionStorage.getItem("msg"))
+        //未定义的读出来为null,JSON.parse()结果还是null
+        console.log(sessionStorage.getItem("msg4"))
+    };
+
+    function deleteData(){
+        //移除
+        sessionStorage.removeItem("msg2");
+        //清空
+        sessionStorage.clear();
+    };
+</script>
+</html>

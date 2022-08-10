@@ -125,3 +125,36 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     请使用低版本less-loader  =>npm i less-loader@6
     卸载请用： npm uninstall --save less-loader
 
+##todoList案例
+    1：组件化编码流程：
+        1：拆分静态组件：组件要按照功能点拆分，命名不要与html元素冲突
+        2：实现动态组件：考虑好数据存放得位置，数据是一个组件在应用还是一些组件在应用：
+            1）：一个组件在应用：放在组件自身即可
+            2）：一些组件在应用：放在他们共同得父组件身上<span style="color:red">状态提升</span>
+        3：实现交互：从绑定事件开始
+    2：props适用于：
+        1：父组件==》子组件通信
+        2：子组件==》父组件通信（要求父先给子一个函数）
+    3：使用v-model时要切记：v-model绑定的值不能是props传递过来得值，因为props是不可以被修改得
+    4：props传过来的若是对象类型的值，修改对象中的属性时vue不会报错，但是不推荐这么做
+        --参考watch深度监视功能：deep:true
+
+##webStorage(浏览器本地存储)
+    --(localStorage/sessionStorage)
+    1:存储内容大小一般支持5MB左右，（不同浏览器可能还不一样）
+    2:浏览器端通过window.sessionStorage,window.localStorage属性来实现本地存储机制
+    3:相关API:
+        1:xxxStorage.setItem(k,v);
+            该方法会接受一个键和值作为一个参数，会把键值添加到存储中，如果键名存在，则更新其对应的值
+        2:xxxStorage.getItem(k);
+            该方法接受一个键名作为参数，返回键名对应的值
+        3:xxxStorage.removeItem(k);
+            该方法接受一个键名作为参数，并把该键名对应的键值对从存储中移除
+        4:xxxStorage.clear();
+            该方法会清空存储中的所有数据
+    4:备注：
+        1：sessionStorage存储的内容会随着浏览器窗口关闭而消失
+        2：localStorage存储的内容，需要手动清楚才消失
+        3：xxxStorage.getItem(k),如果对应的k获取不到，那么返回值为null
+        4：JSON.parse(null)的结果依旧是null
+

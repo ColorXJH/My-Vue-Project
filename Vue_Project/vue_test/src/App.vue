@@ -1,110 +1,74 @@
 <template>
-  <div id="root">
-    <div class="todo-container">
-      <div class="todo-wrap">
-        <MyHeader :addTodo="addTodo"/>
-        <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo"/>
-        <MyFooter :todos="todos"
-                  :checkAllTodo="checkAllTodo" :clearAllTodo="clearAllTodo"/>
-      </div>
-    </div>
+  <div class="demo">
+    <h1>{{msg}}{{name}}{{schoolName}}</h1>
+    <!-- 通过父组件给子组件传递函数类型的props实现：子给父传递数据  -->
+    <Student :handleTest="handleTest" @demoss="m2"/>
+    <hr>
+    <!--通过组件的自定义事件绑定来实现：子给父传递数据    -->
+    <!-- 由于v-on在student组件标签上，所以说是给student整个组件的实例对象vc(vue component)身上绑定了一个事件，事件名称叫
+         colorxjh,如果以后有人触发了这个事件，则函数myFun就会被调用-->
+    <!-- 事件触发原则：你给谁绑定的事件，你就找谁触发   -->
+    <School v-on:colorxjh="myFun"/>
+    <!-- v-on:colorxjh 和  @colorxjh都可以，后者是简写形式 -->
+    <School @colorxjh.once="myFun" @demos="m1"/>
+
+    <!-- 或者使用如下方法也能实现   this.$refs.student拿到这个组件实例对象-->
+    <!--  更自由灵活  -->
+    <School ref="schools"/>
   </div>
 </template>
 <script>
-import MyHeader from "@/components/MyHeader";
-import MyList from "@/components/MyList";
-import MyFooter from "@/components/MyFooter";
-
+import Student from "./components/Student";
+import School from "./components/School";
 export default {
-  name: 'App',
-  data() {
+  name:'App',
+  data(){
     return {
-      //由于todos是MyHeader组件和MyFooter组件都在使用，所以放在app中（状态提升）
-      //数据在哪里，对数据得操作就定义在哪里
-      todos:[
-        {id:'001',title:'看书',done:true},
-        {id:'002',title:'学习',done:false},
-        {id:'003',title:'打游戏',done:true},
-      ],
+      msg:'你好啊',
+      name:'',
+      schoolName:'',
     }
   },
-  methods: {
-    //添加一个todo,数组前面添加
-    addTodo(todoObj){
-      this.todos.unshift(todoObj);
+  methods:{
+    handleTest(msg){
+      this.name=msg;
     },
-    //勾选。取消一个todo
-    checkTodo(id){
-      this.todos.forEach((todo)=>{
-        if(todo.id===id){
-          todo.done=! todo.done;
-        }
-      })
+    myFun(name,...a){
+      console.log("myFun被调用了",name,a);
+      this.schoolName=name;
     },
-    //删除一个todo
-    deleteTodo(id){
-      this.todos=this.todos.filter((todo)=>{return todo.id!==id})
+    m1(name,...a){
+      console.log("demos事件被触发了")
     },
-    //全选，取消全选
-    checkAllTodo(done){
-      this.todos.forEach((todo)=>{todo.done=done})
+    m2(name,...a){
+      console.log("demoss事件被触发了---")
     },
-    //清楚所有已完成的todo
-    clearAllTodo(){
-      this.todos=this.todos.filter((todo)=>{
-        return !todo.done
-      })
-    }
   },
-  components: {
-    MyHeader, MyList, MyFooter,
-  }
+  components:{
+    Student,School,
+  },
+  mounted() {
+   setTimeout(()=>{
+     //this.$refs.schools.$on("colorxjh",this.myFun)
+
+     //只触发一次
+     this.$refs.schools.$once("colorxjh",this.myFun)
+   },3000);
+  },
 }
 
 </script>
+<!--
+css ,less,...,less可以嵌套使用
+不写lang,默认css
+-->
 
-<style>
-  /*base*/
-  body {
-    background: #fff;
+<style lang="less">
+.demo{
+  background-color: #42b983;
+  margin-top: 10px;
+  .qwe{
+    font-size:40px;
   }
-
-  .btn {
-    display: inline-block;
-    padding: 4px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-  }
-
-  .btn-danger {
-    color: #fff;
-    background-color: #da4f49;
-    border: 1px solid #bd362f;
-  }
-
-  .btn-danger:hover {
-    color: #fff;
-    background-color: #bd362f;
-  }
-
-  .btn:focus {
-    outline: none;
-  }
-
-  .todo-container {
-    width: 600px;
-    margin: 0 auto;
-  }
-
-  .todo-container .todo-wrap {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
+}
 </style>

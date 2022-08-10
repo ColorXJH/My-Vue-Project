@@ -1,4 +1,5 @@
 <template>
+<!-- v-show="total"控制是否展示 -->
   <div class="todo-footer" v-show="total">
     <label>
       <!-- <input type="checkbox" :checked="isAll" @change="checkAll"/> -->
@@ -20,6 +21,7 @@ export default {
       return this.todos.length;
     },
     doneTotal(){
+      //reduce:条件统计，pre初始值为数组index=0,或者默认初始值，pre为上次函数执行完得返回值，current为当前传递项得值，整个reduc最后一次返回值作为方法返回值
       return this.todos.reduce((pre,todo)=>{
         return pre+(todo.done?1:0)
       },0)
