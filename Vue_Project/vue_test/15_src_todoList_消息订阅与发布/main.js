@@ -10,7 +10,4 @@ window.name="xjh";
 new Vue({
     el:'#root',
     render:h=>h(App),
-    beforeCreate() {
-        Vue.prototype.$bus=this;
-    }
 });

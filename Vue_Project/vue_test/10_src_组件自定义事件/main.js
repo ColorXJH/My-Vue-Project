@@ -10,7 +10,9 @@ window.name="xjh";
 new Vue({
     el:'#root',
     render:h=>h(App),
-    beforeCreate() {
-        Vue.prototype.$bus=this;
+    mounted() {
+        /*setTimeout(()=>{
+            this.$destroy();//他自己及其下属的所有自定义事件都销毁了
+        },4000);*/
     }
 });
