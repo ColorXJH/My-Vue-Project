@@ -7,12 +7,14 @@
         <MyFooter/>
       </div>
     </div>
+    <Test/>
   </div>
 </template>
 <script>
 import MyHeader from "@/components/MyHeader";
 import MyList from "@/components/MyList";
 import MyFooter from "@/components/MyFooter";
+import Test from "@/components/Test";
 
 export default {
   name: 'App',
@@ -20,7 +22,7 @@ export default {
 
   },
   components: {
-    MyHeader, MyList, MyFooter,
+    MyHeader, MyList, MyFooter,Test
   },
 
 
