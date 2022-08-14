@@ -1,20 +1,13 @@
 <template>
   <ul class="todo-main">
-    <!--  也可以在单独的item中使用transition  -->
-    <transition-group appear
-        name="animate__animated animate__bounce"
-        enter-active-class="animate__swing"
-        leave-active-class="animate__backOutUp"
-    >
     <MyItem v-for="todoObj in todos":key="todoObj.id"
             :todo="todoObj"/>
-    </transition-group>
   </ul>
 </template>
 
 <script>
-import 'animate.css'
 import MyItem from "@/components/MyItem";
+
 export default {
   name: 'MyList',
   components: {MyItem,},

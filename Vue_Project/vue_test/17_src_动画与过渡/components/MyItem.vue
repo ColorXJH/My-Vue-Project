@@ -1,9 +1,4 @@
 <template>
-<!--  <transition appear
-              name="animate__animated animate__bounce"
-              enter-active-class="animate__swing"
-              leave-active-class="animate__backOutUp"
-  >-->
   <li>
     <label>
       <!-- 如下代码也能实现功能，但是不太推荐，因为有点违反原则，因为修改了props -->
@@ -16,15 +11,17 @@
     <button class="btn btn-danger" @click="handleDelete(todo.id)">删除</button>
     <button v-show="!todo.isEdit" class="btn btn-edit" @click="handleEdit(todo)">编辑</button>
   </li>
-<!--  </transition>-->
 </template>
 
 <script>
-/*import 'animate.css'*/
 export default {
   name: 'MyItem',
   //声明接收todo
   props:['todo'],
+  /*方法三 ：不推荐，推荐使用方法2*/
+  /*updated() {
+    this.$refs.inputTitle.focus();
+  },*/
   methods:{
     //勾选、取消勾选
     handleCheck(id){
@@ -37,9 +34,22 @@ export default {
       }else{
         this.$set(todo,"isEdit",true);
       }
+      /*解决方法之一*/
+      /*setTimeout(()=>{
+        this.$refs.inputTitle.focus();
+      },200);*/
+
+      //方法2
+      //$nextTick所指定的回调会在dom节点更新完毕之后再执行
+      //如果不使用这个：则执行顺序不对，input框都走完了可能页面还没解析，然后再解析渲染，就没有效果了
       this.$nextTick(function (){
         this.$refs.inputTitle.focus();
       })
+
+      //这种定时器立即到点，定时器的回调也是需要推向队列执行，这种也可以，但是不如上面好
+      /*setTimeout(()=>{
+        this.$refs.inputTitle.focus();
+      },200);*/
     },
     //失去焦点事件
     handleBlur(todo,e){

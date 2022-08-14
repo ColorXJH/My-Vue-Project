@@ -27,7 +27,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 #笔记
 
 
-##脚手架文件结构分析
+## 脚手架文件结构分析
     - 配置文件目录结构
    - node_modules
    - public
@@ -46,7 +46,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - README.md:应用描述文件
 - package-lock.json:包版本控制文件
 
-##关于不同版本的vue
+## 关于不同版本的vue
 - 1：vue.js/vue.runtime.js的区别：
   - 1：vue.js是完整版的，包含核心功能和模板解析器
   - 2：vue.runtime.js是运行版的vue,只包含核心功能，没有模板解析器
@@ -56,17 +56,17 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
   - 3：vm中没有模板解析器了，所以不能写template配置项，最后都是统一打包成静态资源，html,css,js这种浏览器能识别的
   - 4：模块化有两种，一种是es6的一种是带commonjs的
 
-##vue.config.js配置文件
+## vue.config.js配置文件
 - 参考官方文档
 
-##ref属性
+## ref属性
     1：被用来给元素或子组件注册引用信息（id的替代者）
     2：应用在html标签上获取的是真是的dom元素，应用在组件标签上是组件实例对象vc
     3：使用方式：
         打标识：<h1 ref="xxx"></h1>  <School ref="xxx"/>
         获取方式：this.$ref.xxx
 
-##配置项props
+## 配置项props
     功能：让组件接收外部传过来的数据
         1：传递数据：
             <demo name="xxx"/>
@@ -88,7 +88,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     备注：props是只读的，Vue底层会监测到你对props的修改，如果进行了修改，就会发出警告
         若业务需求确实需要修改，那么请赋值props中的内容到data中，然后却重命名修改data中的数据
 
-##mixin(混入)
+## mixin(混入)
     功能:可以把多个组件共用的配置提取成一个混入对象
     使用方式:
         1:第一步定义混合：例如：
@@ -100,7 +100,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
             1：全局混入:Vue.mixin(xxx)
             2：局部混入:mixins:['xxx']
         
-##插件
+## 插件
     功能：用于增强vue
     本质：包含install方法的一个对象，install的第一个参数是vue,第二个以后的参数是插件使用者传递的参数
     定义插件：
@@ -117,7 +117,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
             }
     使用插件：Vue.use(pluginname,args);
 
-##scoped样式
+## scoped样式
     作用：让样式在局部生效
     写法：<style scoped></style>
     关于安装脚手架中默认识别less插件 less-loader，可能存在的版本冲突
@@ -125,7 +125,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     请使用低版本less-loader  =>npm i less-loader@6
     卸载请用： npm uninstall --save less-loader
 
-##todoList案例
+## todoList案例
     1：组件化编码流程：
         1：拆分静态组件：组件要按照功能点拆分，命名不要与html元素冲突
         2：实现动态组件：考虑好数据存放得位置，数据是一个组件在应用还是一些组件在应用：
@@ -139,7 +139,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     4：props传过来的若是对象类型的值，修改对象中的属性时vue不会报错，但是不推荐这么做
         --参考watch深度监视功能：deep:true
 
-##webStorage(浏览器本地存储)
+## webStorage(浏览器本地存储)
     --(localStorage/sessionStorage)
     1:存储内容大小一般支持5MB左右，（不同浏览器可能还不一样）
     2:浏览器端通过window.sessionStorage,window.localStorage属性来实现本地存储机制
@@ -158,7 +158,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         3：xxxStorage.getItem(k),如果对应的k获取不到，那么返回值为null
         4：JSON.parse(null)的结果依旧是null
 
-##组件的自定义事件
+## 组件的自定义事件
     1：一种组件间通信的方式，适用于：子组件==》父组件
     2：使用场景：A是父组件，B是子组件，B想传递数据给A，那么就要在A中给B绑定自定义事件（事件的回调在A中）
     3：绑定自定义事件：
@@ -174,7 +174,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     7：注意：通过this.$refs.demo.$on("colorxjh",回调函数)绑定自定义事件时，回调函数要么配置在methods中
         要么用箭头函数，否则this指向会出现问题，（他会指向默认的：谁触发了自定义事件，他就指向哪个vc实例对象）
 
-##全局事件总线（GlobalEventBus）
+## 全局事件总线（GlobalEventBus）
     1:一种组件间通信的方式，适用于任意组件间通信 
     2:安装全局事件总线
         new Vue({
@@ -195,7 +195,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
             2:提供数据：this.$bus.$emit("xxx",data)
         4:最好在beforeDestory钩子中，用$off去解绑当前组件所用到的事件
 
-##消息订阅与发布（pubsub）
+## 消息订阅与发布（pubsub）
     1:一种组件间通信的方式，适用于任意组件间通信
     2：使用步骤：
         1：安装pubsub: npm i pubsub-js
@@ -211,7 +211,29 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         4：提供数据：pubsub.publish('xxx',数据)
         5：最好在beforeDestroy钩子中，用pubsub.unsubscribe(this.pid)去取消订阅
 
-##nextTick
+## nextTick
     1:语法: this.$nextTick(回调函数);
     2:作用: 在下一次dom更新结束后执行其指定的回调
     3:什么时候用: 当改变数据后，要基于更新后的新dom进行某些操作时，要在nextTick所指定的回调函数中执行
+
+## vue封装的过渡与动画
+    1:作用：在插入、更新、移除dom元素时，在合适的时候给元素添加样式类名
+    2：实例    enter: v-enter   -->v-enter-active----->  v-enter-to
+              leave: v-leave   -->v-leave-active----->  v-leave-to   
+    3:写法：
+        1：准备好样式：
+            元素进入的样式：
+                1:v-enter:进入的起点
+                2:v-enter-active:进入过程中
+                3:v-enter-to:进入的终点
+            元素离开的样式：
+                1:v-leave:离开的起点
+                2:v-leave-active:离开过程中
+                3:v-leave-to:离开的终点
+        2：使用<transition>包裹要过渡的元素，并配置name属性
+                <transition name="hello">
+                    <h1 v-show="isShow"></h1>
+                </transition>
+        3:备注：若有多个元素需要过渡，则需要使用<transition-group>,且每个元素都要指定key值    
+
+   

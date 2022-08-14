@@ -34,7 +34,7 @@
       },
     }
 </script>
-<style>
+<style scoped>
   h1{
     background-color: orange;
   }
