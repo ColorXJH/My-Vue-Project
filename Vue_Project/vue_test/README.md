@@ -251,9 +251,20 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
             devServer:{
                 proxy:{
                     '//api1':{
-    
+                        target:'gttp://localhost:5000',//代理目标得基础路径
+                        changeOrigin:true,
+                        pathRewrite:{'^/api1':''},
+                        ws:true,//用于支持websocket
                     },
-                    '/api2'
+                    '/api2':{
+                        target:'gttp://localhost:5000',//代理目标得基础路径  
+                        pathRewrite:{'^/api2':''},
+                    },
                 },
             },
         }
+        //changeOrigin  ws 默认为true
+        //changeOrigin 为true时，服务器收到得请求头中host为 localhost:5000
+        //changeOrigin 为false时，服务器收到得请求头中host为 localhost:8080
+            //优点：可以配置多个代理，其可以灵活控制请求是否走代理
+            //缺点：配置略微繁琐，请求资源时必须加上前缀
