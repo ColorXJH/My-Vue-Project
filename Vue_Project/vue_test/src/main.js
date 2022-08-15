@@ -11,6 +11,6 @@ new Vue({
     el:'#root',
     render:h=>h(App),
     beforeCreate() {
-        Vue.prototype.$bus=this;
+        Vue.prototype.$bus=this;//全局事件总线
     }
 });

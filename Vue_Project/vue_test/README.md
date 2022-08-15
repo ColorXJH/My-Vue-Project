@@ -237,3 +237,23 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         3:备注：若有多个元素需要过渡，则需要使用<transition-group>,且每个元素都要指定key值    
 
    
+## vue脚手架配置代理
+    方法一：在vue.config.js中添加如下配置
+        devServer:{
+            proxy:'http://localhost:8080'
+        }
+        说明：
+            优点：配置简单，请求资源时直接发给前端8080即可
+            缺点：不能配置多个代理，不能灵活控制请求是否走代理
+            工作方式：若按照上述配置代理，当请求了前端不存在的url时，那么该请求会转发给服务器（优先匹配前端资源）
+    方法二：编写vue.config.js配置具体代理规则
+        module.exports={
+            devServer:{
+                proxy:{
+                    '//api1':{
+    
+                    },
+                    '/api2'
+                },
+            },
+        }
