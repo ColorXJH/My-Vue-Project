@@ -1,11 +1,13 @@
 <template>
   <div class="container">
-    <Category/>
+    <Search/>
+    <List/>
   </div>
 </template>
 <script>
 //import './assert/bootstrap.css';//这种方式有严格的资源检查，不存在的资源可能会报错，
-import Category from "@/components/Category";
+import Search from "@/components/Search";
+import List from "@/components/List";
   export default {
     name:'App',
     data(){
@@ -13,7 +15,7 @@ import Category from "@/components/Category";
         name:'color6',
       }
     },
-    components:{Category},
+    components:{Search,List,},
     method:{
 
     },

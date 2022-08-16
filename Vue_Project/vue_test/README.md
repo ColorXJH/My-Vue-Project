@@ -268,3 +268,15 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         //changeOrigin 为false时，服务器收到得请求头中host为 localhost:8080
             //优点：可以配置多个代理，其可以灵活控制请求是否走代理
             //缺点：配置略微繁琐，请求资源时必须加上前缀
+
+## vue-resource
+    1:几种发送ajax请求的方式：1：xhr,2:jquery 3:axios,4:fetch,5:vue-resource
+    使用vue-resource
+        1:npm i vue-resource
+        2:使用插件 Vue.use();
+        3:替换axios
+    注意：该插件库vue 1.x使用较为广泛，仙子啊官方已不维护了，建议使用axios
+    
+## vue slot插槽
+    
+    
