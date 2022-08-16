@@ -1,19 +1,32 @@
 <template>
     <div class="category">
-      <h3>xxx分类</h3>
-      <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
+      <h3>{{title}}分类</h3>
+      <!-- 定义一个插槽，等待组件的使用者来填充-->
+      <!-- 默认插槽     -->
+      <slot>我是一些默认值，当使用者没有传递具体结构时，我会出现</slot>
+      <!-- -->
     </div>
 </template>
 <script>
   export default {
     name:"Category",
+    props:['title'],
   }
 </script>
-<style>
-
+<style scoped>
+    .category{
+      background-color: skyblue;
+      width: 200px;
+      height: 300px;
+    }
+    h3{
+      text-align: center;
+      background-color: orange;
+    }
+    img{
+      width: 150px;
+    }
+    video{
+      width: 100%;
+    }
 </style>
