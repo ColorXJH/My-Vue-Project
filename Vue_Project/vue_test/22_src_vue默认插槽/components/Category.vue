@@ -1,20 +1,15 @@
 <template>
     <div class="category">
       <h3>{{title}}分类</h3>
-      <!-- 将games数据传递给插槽的使用者     -->
-      <!-- name="myName"     -->
-      <slot :games="games" msg="hello" >我是默认内容</slot>
-
+      <!-- 定义一个插槽，等待组件的使用者来填充-->
+      <!-- 默认插槽     -->
+      <slot>我是一些默认值，当使用者没有传递具体结构时，我会出现</slot>
+      <!-- -->
     </div>
 </template>
 <script>
   export default {
     name:"Category",
-    data(){
-      return {
-        games:["QQ飞车","英雄联盟","穿越火线","超级玛丽"],
-      }
-    },
     props:['title'],
   }
 </script>

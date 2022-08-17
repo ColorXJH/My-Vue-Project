@@ -277,6 +277,71 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         3:替换axios
     注意：该插件库vue 1.x使用较为广泛，仙子啊官方已不维护了，建议使用axios
     
-## vue slot插槽
-    
-    
+## vue插槽
+    1：作用：让父组件可以向子组件指定位置插入html结构，也是一种组件间通信的方式，适用于 <span color="red">父组件==>子组件</span>
+    2：分类：默认插槽，具名插槽，作用域插槽
+    3：使用方式：
+        1：默认插槽
+            父组件中：
+                <Category>
+                    <div>html结构</div>
+                </Category>
+            子组件中：
+                <template>
+                    <div>
+                        <!-- 定义插槽 -->
+                        <slot>插槽默认内容</slot>
+                    </div>
+                </template>
+        2：具名插槽：
+            父组件中：
+                <Category>
+                    <template slot="center">
+                        <div>html结构</div>
+                    </template>
+                    <template v-slot:footer>
+                        <div>html结构</div>
+                    </template>
+                </Category>
+            子组件中：
+                <template>
+                    <div>
+                        <!-- 定义插槽 -->
+                        <slot name="center">插槽默认内容</slot>
+                        <slot name="footer">插槽默认内容</slot>
+                    </div>
+                </template>
+        3：作用域插槽：（有时候父组件没有数据定义，数据放在子组件）
+            1：理解：数据在组件自身，但根据数据生成的结构需要组件的使用者（父组件）来决定，（games数据在category组件中，但使用
+            数据所遍历出来的结构由app组件来决定）
+            2：具体编码：
+                父组件中：
+                    <Category>
+                        <template scope="scopeData">
+                            <!-- 生成的是ul列表 -->
+                            <ul>
+                                <li v-for="(item,index) in scopeData.games">{{item}}</li>
+                            </ul>
+                        </template>
+                    </Category>
+                    <Category>
+                        <template scope="scopeData">
+                            <!-- 生成的是ol列表 -->
+                            <ol>
+                                <li v-for="(item,index) in scopeData.games">{{item}}</li>
+                            </ol>
+                        </template>
+                    </Category>
+                子组件中：
+                    <template>
+                        <div>
+                            <slot :games="games"></slot>
+                        </div>
+                    </template>
+                    export default {
+                        data(){
+                            return{
+                                games:["QQ飞车","英雄联盟","穿越火线","红色警戒"],
+                            }
+                        }
+                    }
