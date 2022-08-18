@@ -14,11 +14,19 @@ const actions={
     jian(context,value){
         console.log("actions --jian被调用了",context,value);
         context.commit("JIAN",value);
+
     },
-    addOdd(context,value){
+    demo1(context,value){
+        console.log("actions --demo1被调用了",context,value);
         if(context.state.sum%2){
             context.commit("ADD",value);
+            //如果这样写，也能实现效果，但是开发者工具就失效了，以为dev-tool监视的是mutation，
+            //context.state.sum+=value;
         }
+    },
+    addOdd(context,value){
+        console.log("actions --addOdd被调用了",context,value);
+        context.dispatch("demo1",value)
     },
     addWait(context,value){
         setTimeout(()=>{

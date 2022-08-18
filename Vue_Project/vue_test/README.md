@@ -375,3 +375,27 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
                 store,
                 render:h=>h(App),
             })
+    5：基本使用
+        1：初始化数据：配置actions,mutations,state,操作文件store.js
+        import Vue form 'vue'
+        import Vuex from 'vuex'
+        Vue.use(Vuex)
+        const actions={
+            jia(context,value){
+               context.commit("JIA",value)     
+            }
+        }
+        const mutaitons={
+            JIA(state,value){
+                state.sum+=value;
+            }
+        }
+        const state={
+            sum:0
+        }
+        export default new Vuex.Store({
+            actions,mutations,state
+        })
+        组件中读取vuex中的数据：$store.state.sum
+        组件中修改vuex中的数据：$store.dispatch("action中的方法名"，数据)，或：$store.commit("mutaitons中的额方法名",数据)
+        备注：若没有网络请求或其他业务逻辑，组件也可以越过actions，即不写dispatch,直接写commit
