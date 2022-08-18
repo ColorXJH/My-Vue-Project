@@ -39,7 +39,7 @@
 </template>
 <script>
 //import './assert/bootstrap.css';//这种方式有严格的资源检查，不存在的资源可能会报错，
-import Category from "@/components/Category";
+import Category from "@/components/Count";
   export default {
     name:'App',
     data(){

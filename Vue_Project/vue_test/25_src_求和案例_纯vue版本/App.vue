@@ -11,9 +11,6 @@ import Count from "@/components/Count";
     method:{
 
     },
-    mounted() {
-      console.log('app',this);
-    }
 
   }
 </script>

@@ -345,3 +345,33 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
                             }
                         }
                     }
+
+## vuex
+    1:vuex是什么
+        专门在vue中实现集中式状态（数据）管理的一个vue插件，对vue应用中多个组件的
+        共享状态进行集中式的管理（读/写），也是一种组件间通讯的方式，且适用于任意组件间通信
+    2:github: https://github.com/vuejs/vuex
+    3:什么时候使用vuex
+        1:多个组件间依赖于同一个状态
+        2：来自不同组件的行为需要变更同一状态
+        我们使用的是vue2，所以使用vuex3版本，他们的版本号是差一位的：npm i vuex@3
+    4:搭建vuex环境：
+        1：创建文件：src/store/index.js
+            import Vue from 'vue'
+            import Vuex from 'vuex'
+            Vue.use(Vuex);
+            const actions={}
+            const mutations={}
+            const state={}
+            export default new Vuex.Store({
+                actions,mutations,state
+            })
+        2:在main.js中创建vm时传入store配置项
+            ...
+            import store from './store'
+            ...
+            new Vue({
+                el:'#root'
+                store,
+                render:h=>h(App),
+            })
