@@ -440,3 +440,44 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         //靠mapMutations生成，incrementOdd,incrementWait(数组形式)
         ...mapMutations(["ADD","JIAN"]); 
     }
+
+## 模块化+命名空间
+    1：目的：当代码更好维护，让多种数据分类更加明确
+    2：修改store.js
+        const countAbout={
+            namespaced:true,
+            state:{},
+            mutations:{},
+            actions:{},
+            getters:{},
+        }
+        const personAbout={
+            namespaced:true,
+            state:{},
+            mutations:{},
+            actions:{},
+            getters:{},
+        }
+        const store={
+            countAbout,personAbout
+        }
+    3：开启命名空间后，组件中读取state数据
+        1：方式一：自己直接读取
+            this.$store.state.personAbout.list
+        2：方式二：借助mapStatus读取
+            ...mapState('countAbout',['sum','school','subject'])
+    4：开启命名空间后，组件中读取getter数据
+        1：方式一：自己直接读取
+            this.$store.getters['personAbout/firstPsersonName']
+        2：方式二：借助mapGetters读取
+            ...mapgetters('countAbout',['bigSum'])         
+    5：开启命名空间后，组件中调用dispatch
+        1：方式一：自己直接调用
+            this.$store.dispatch('personAbout/addPersonWang',person)
+        2：方式二：借助mapActions调用
+            ...mapActions('countAbout',{"incremmentOdd":"jiaOdd"}})  
+    6：开启命名空间后，组件中调用commit
+        1：方式一：自己直接调用
+            this.$store.commit('personAbout/addPersonWang',person)
+        2：方式二：借助mapMutations调用
+            ...mapMutations('countAbout',{"incremmentOdd":"jiaOdd"}})  
