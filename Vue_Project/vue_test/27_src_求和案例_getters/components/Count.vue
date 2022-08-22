@@ -1,12 +1,11 @@
 <template>
     <div>
       <!--模板能看见vc身上的所有东西      -->
-      <h1>当前求和为{{sum}}</h1>
-      <h3>当前求和放大10倍为：{{sum*10}}</h3>
+      <h1>当前求和为{{$store.state.sum}}</h1>
+      <h3>当前求和放大10倍为：{{$store.state.sum*10}}</h3>
       <!-- 计算属性：跨组件无法使用     -->
-      <h3>当前求和放大10倍，计算属性{{sum}}</h3>
-      <h3>当前求和放大10倍，复杂逻辑放在getter中：{{daHe}}</h3>
-      <h3>我在{{school}}学习{{subject}}</h3>
+      <h3>当前求和放大10倍，计算属性{{tsum}}</h3>
+      <h3>当前求和放大10倍，复杂逻辑放在getter中：{{$store.getters.bigSum}}</h3>
 <!--      <select v-model="n">
         <option :value="1">1</option>
         <option :value="2">2</option>
@@ -24,8 +23,6 @@
     </div>
 </template>
 <script>
-/*引入vuex映射状态*/
-  import {mapState,mapGetters,mapMutations} from 'vuex'
   export default {
     name:"Count",
     data(){
@@ -34,21 +31,12 @@
       }
     },
     computed:{
-
-      //借助mapState生成计算属性，从state中读取数据，对象写法
-      //将mapState对象中的每一组k/v展开，放在外部对象中
-
-      //借助mapState生成计算属性，从state中读取数据，数组写法
-      ...mapState(['sum','subject','school']),
-
-      //借助mapGetters生成计算属性，从getter中读取数据，对象写法(同上也有数组写法)
-      //将mapGetters对象中的每一组k/v展开，放在外部对象中
-      ...mapGetters({
-        daHe:"bigSum"
-      }),
+      tsum(){
+        return 10*this.$store.state.sum
+      }
     },
     methods:{
-      /*increment(){
+      increment(){
         //如果没有业务逻辑直接调用commit
         //this.$store.dispatch("add",this.n);
         this.$store.commit("ADD",this.n);
@@ -56,8 +44,7 @@
       decrement(){
         //this.$store.dispatch("jian",this.n);
         this.$store.commit("JIAN",this.n);
-      },*/
-      ...mapMutations({increment:"ADD",decrement:"JIAN"}),
+      },
       incrementOdd(){
         /*if(this.$store.state.sum%2){
           this.$store.dispatch("add",this.n);
@@ -71,8 +58,6 @@
         this.$store.dispatch("addWait",this.n);
       },
     },
-    mounted() {
-    }
   }
 </script>
 <style scoped>

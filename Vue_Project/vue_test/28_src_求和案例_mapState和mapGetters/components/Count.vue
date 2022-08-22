@@ -25,7 +25,7 @@
 </template>
 <script>
 /*引入vuex映射状态*/
-  import {mapState,mapGetters,mapMutations} from 'vuex'
+  import {mapState,mapGetters} from 'vuex'
   export default {
     name:"Count",
     data(){
@@ -34,13 +34,33 @@
       }
     },
     computed:{
-
+      //靠程序员亲自去写计算属性
+      /*tsum:function xxxxxxxuuuu(){
+        return 10*this.$store.state.sum
+      },
+      sums(){
+        return this.$store.state.sum;
+      },
+      school(){
+        return this.$store.state.school
+      },
+      subject(){
+        return this.$store.state.subject;
+      },*/
       //借助mapState生成计算属性，从state中读取数据，对象写法
       //将mapState对象中的每一组k/v展开，放在外部对象中
+      /*...mapState({
+        he:'sum',
+        xueke:"subject",
+        xuexiao:'school',
+      }),*/
 
       //借助mapState生成计算属性，从state中读取数据，数组写法
       ...mapState(['sum','subject','school']),
 
+      /*bigSum(){
+        return this.$store.getters.bigSum;
+      },*/
       //借助mapGetters生成计算属性，从getter中读取数据，对象写法(同上也有数组写法)
       //将mapGetters对象中的每一组k/v展开，放在外部对象中
       ...mapGetters({
@@ -48,7 +68,7 @@
       }),
     },
     methods:{
-      /*increment(){
+      increment(){
         //如果没有业务逻辑直接调用commit
         //this.$store.dispatch("add",this.n);
         this.$store.commit("ADD",this.n);
@@ -56,8 +76,7 @@
       decrement(){
         //this.$store.dispatch("jian",this.n);
         this.$store.commit("JIAN",this.n);
-      },*/
-      ...mapMutations({increment:"ADD",decrement:"JIAN"}),
+      },
       incrementOdd(){
         /*if(this.$store.state.sum%2){
           this.$store.dispatch("add",this.n);
@@ -72,6 +91,16 @@
       },
     },
     mounted() {
+      const x=mapState({
+        he:'sum',
+        'xueke':"subject",
+        'xuexiao':'school',
+      });
+      const y=mapGetters({
+        daHe:"bigSum"
+      });
+      console.log(x);
+      console.log(y);
     }
   }
 </script>

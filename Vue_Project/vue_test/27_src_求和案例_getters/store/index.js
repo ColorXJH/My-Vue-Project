@@ -49,8 +49,6 @@ const mutations={
 //准备state,用于存储数据
 const state={
     sum:0,//当前和
-    school:"广德中学",
-    subject:'前端',
 }
 
 /*用于处理复杂逻辑，加工state中的数据*/

@@ -399,3 +399,44 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         组件中读取vuex中的数据：$store.state.sum
         组件中修改vuex中的数据：$store.dispatch("action中的方法名"，数据)，或：$store.commit("mutaitons中的额方法名",数据)
         备注：若没有网络请求或其他业务逻辑，组件也可以越过actions，即不写dispatch,直接写commit
+
+## getters的使用
+    1：概念：当state中的数据需要经过加工后再使用时，可以使用getters加工
+    2：在store.js中追缴getters配置
+        ...
+            const getters={
+                bigSum(state){
+                    return state.sum*10;
+                }
+            }
+            export default new Vuex.Store({
+                ....getters, 
+            })
+        ...
+    3：组件中读取数据：{{$store.getters.bigSum}}
+
+## 4个map方法的使用
+    1：mapState方法：用于帮助我们映射state中的数据为计算属性
+    computed:{
+        ...mapState({sum:'sum',school:"school"})//对象写法
+        ...mapState(["sum","school","subject"])//数组写法
+    }
+    2：mapGatters方法：用于帮助我们映射Getters中的数据为计算属性
+    computed:{
+        ...mapGetters({"bigSum":"bigSum"});//对象写法
+        ...mapGetters(["bigSum"]);//数组写法
+    }
+    3：mapActions方法：用于帮助我们生成与actions对话的方法，即：包含$store.dispatch(XXX)的函数
+    methods:{
+        //靠mapActions生成，incrementOdd,incrementWait(对象形式)
+        ...mapActions({incrementOdd:"jia",incrementWait:"jiaWait"})
+        //靠mapActions生成，incrementOdd,incrementWait(数组形式)
+        ...mapActions(["jia","jiaWait"]);
+    }
+    4：mapMutations方法：用于帮助我们生成与mutation对话的方法，即包含$store.commit(XXX)
+    emthods:{
+        //靠mapMutations生成，incrementOdd,incrementWait(对象形式)
+        ...mapMutations({jia:"ADD",jian:"JIAN"})
+        //靠mapMutations生成，incrementOdd,incrementWait(数组形式)
+        ...mapMutations(["ADD","JIAN"]); 
+    }
