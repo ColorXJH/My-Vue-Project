@@ -2,7 +2,9 @@
   <div class="container">
     <!--样式都是bootstrap中的样式，在index页面引入或者在本页引入    -->
     <div class="row">
-      <Banner/>
+      <div class="col-xs-offset-2 col-xs-8">
+        <div class="page-header"><h2>Vue Router Demo</h2></div>
+      </div>
     </div>
     <div class="row">
       <div class="col-xs-2 col-xs-offset-2">
@@ -31,12 +33,8 @@
 </template>
 
 <script>
-import Banner from "@/components/Banner";
 export default {
-  name:'App',
-  components:{
-    Banner,
-  }
+  name:'App'
 }
 </script>
 <style>

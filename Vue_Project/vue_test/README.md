@@ -480,4 +480,51 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         1：方式一：自己直接调用
             this.$store.commit('personAbout/addPersonWang',person)
         2：方式二：借助mapMutations调用
-            ...mapMutations('countAbout',{"incremmentOdd":"jiaOdd"}})  
+            ...mapMutations('countAbout',{"incremmentOdd":"jiaOdd"}})
+
+## vue-router
+    1：路由就是一组key-value的对应关系 route
+    2：多个路由，需要经过路由器的管理 router
+    3:路由适用于SPA:single page web application:单页面应用
+    vue-router:vue的一个插件库，专门用来实现spa应用 
+    spa:单页web应用，整个应用只有一个完整的页面
+    点击页面中的导航链接，不会刷新页面，只会做页面的局部更新
+    数据需要通过ajax请求获取
+    route:一个路由就是一组映射关系k/v
+    key为路径，value可能是function或者component
+    路由分类：
+        后端路由：value是function,用于处理客户端提交的请求（node js）
+        工作过程：服务器接收到一个请求时，根据请求路径找到匹配的函数来处理请求，返回响应数据
+        前端路由：value是component,用于展示页面内容
+        工作过程：当浏览器的路径改变时，对应的组件就会显示
+        
+    1:基本使用：
+        1：安装vue-router:npm i vue-router@3 
+        2：应用插件：Vue.use(VueRouter),注意先引入VueRouter
+        3：编写router配置项
+            创建router文件夹，新建index.js
+            import VueRouter from 'vue-router'
+            import About from './component/About.vue'
+            import Home from './component/Home.vue'
+            const router =new VueRouter({
+                routers:[{
+                    path:'/about',
+                    component:About,
+                },{
+                    path:'/home',
+                    component:Home,
+                }]
+            });
+            export default router
+        4：实现切换：（active-class可以配置高亮）
+            <router-link active-class="active" to="/about">About</router-link>
+        5：指定展示位置
+            <router-view></router-view>
+
+##几个注意点
+    1：路由组件通常放在pages文件夹，一般组件通常放在components文件夹
+    2：通过切换，隐藏了的路由组件，默认是被销毁的，需要的时候再去挂载
+    3：每个组件都有自己的$route属性，里面存储着自己的路由信息
+    4：整个应用只有一个router,可以通过组件的$router属性获取
+    
+            
