@@ -17,18 +17,14 @@
       }">{{item.title}}</router-link>-->
        <!-- 跳转路由并携带params参数，to的对象写法     -->
       <router-link :to="{
-        /*注意这里只能写name,不能写path*/
-        name:'xiangqing',
-        params:{
+        //注意这里只能写name,不能写path
+        path:'/home/message/detail',
+        query:{
           id:item.id,
-          title:item.title,
+          title:item.title
         }
-      }">{{item.id}}</router-link>
-
-
-      <button @click="pushShow(item)">push查看</button>
-      <button @click="replaceShow(item)">replace查看</button>
-
+      }">路由携带query参数--{{item.title}}</router-link>
+      <router-link to="/home/message/detail?title2=夏金辉">点我query方式</router-link>
     </li>
   </ul>
   <hr>
@@ -47,26 +43,6 @@
             ],
           }
         },
-      methods:{
-        pushShow(item){
-          this.$router.push({
-            name:'xiangqing',
-            params:{
-              id:item.id,
-              title:item.title
-            }
-          })
-        },
-        replaceShow(item){
-          this.$router.replace({
-            name:'xiangqing',
-            params:{
-              id:item.id,
-              title:item.title
-            }
-          })
-        },
-      },
     }
 </script>
 <style>

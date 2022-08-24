@@ -48,10 +48,13 @@ const router=new VueRouter({
                             }
                         }*/
                         /*解构赋值连续写法*/
-                        props({params:{id,title}}){
+                        props({params:{ids,titles,},query:{id,title,title2}}){
                             return {
                                 id,
+                                ids,
                                 title,
+                                titles,
+                                title2,
                             }
                         }
                     }

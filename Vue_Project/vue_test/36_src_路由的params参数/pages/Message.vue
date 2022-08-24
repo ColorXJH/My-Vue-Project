@@ -15,20 +15,17 @@
           title:item.title,
         },
       }">{{item.title}}</router-link>-->
-       <!-- 跳转路由并携带params参数，to的对象写法     -->
+      <!-- 跳转路由并携带params参数，to的字符串写法     -->
+      <router-link :to="`/home/message/detail/${item.id}/${item.title}`">路由携带param参数--{{item.title}}</router-link>
+      <!-- 跳转路由并携带params参数，to的对象写法     -->
       <router-link :to="{
-        /*注意这里只能写name,不能写path*/
+        //注意这里只能写name,不能写path
         name:'xiangqing',
         params:{
           id:item.id,
-          title:item.title,
+          title:item.title
         }
-      }">{{item.id}}</router-link>
-
-
-      <button @click="pushShow(item)">push查看</button>
-      <button @click="replaceShow(item)">replace查看</button>
-
+      }">路由携带param参数--{{item.title}}</router-link>
     </li>
   </ul>
   <hr>
@@ -47,26 +44,6 @@
             ],
           }
         },
-      methods:{
-        pushShow(item){
-          this.$router.push({
-            name:'xiangqing',
-            params:{
-              id:item.id,
-              title:item.title
-            }
-          })
-        },
-        replaceShow(item){
-          this.$router.replace({
-            name:'xiangqing',
-            params:{
-              id:item.id,
-              title:item.title
-            }
-          })
-        },
-      },
     }
 </script>
 <style>

@@ -547,3 +547,108 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         ]
     2:调转要写完整路径：
         <router-link to="/home/news">News</router-link>
+
+## 路由的query参数
+    1：传递参数
+    <!-- 跳转路由并携带query参数，to的字符串写法     -->
+    <!--      <router-link :to="`/home/message/detail?id=${item.id}&title=${item.title}`">{{item.title}}</router-link>-->
+    <!-- 跳转路由并携带query参数，to的对象写法       -->
+      <router-link :to="{
+        path:'/home/message/detail',
+        query:{
+          id:item.id,
+          title:item.title,
+        },
+      }">{{item.title}}</router-link>
+    2：接收参数：
+        $route.query.id
+        $route.query.title
+    
+## 命名路由
+    1：作用：可以简化路由的跳转
+    2：如何使用：
+        1：给路由命名：
+            {   
+                name:'guanyu',
+                path:'/about',
+                component:About
+            }
+        2：简化跳转
+            简化前：需要写完整的路径
+            <router-link to="/home/text/vues">跳转</router-link>
+            简化后：直接通过名字跳转
+            <router-link :to={name:'guanyu'}>跳转</router-link>
+            简化配合参数传递
+            <router-link :to=
+                {
+                    name:'guanyu'
+                    query:{
+                        id:xxx,
+                        title:xxx
+                    }
+                }
+            >跳转</router-link>
+
+## 路由的params参数
+    1：配置路由，声明接收params参数
+        {
+            path:'/home',
+            component:Home,
+            children:[
+                {
+                    name:'xxx',
+                    componemt:Detail,
+                    path:'detail/:id/:title'
+                }
+            ]
+        }
+    2:传递参数
+        <!-- 跳转路由并携带params参数，to的字符串写法     -->
+        <router-link :to="`/home/message/detail/${item.id}/${item.title}`">路由携带param参数--{{item.title}}</router-link>
+        <!-- 跳转路由并携带params参数，to的对象写法     -->
+        <router-link :to="{
+            //注意这里只能写name,不能写path
+            name:'xiangqing',
+            params:{
+                id:item.id,
+                title:item.title
+            }
+        }">路由携带param参数--{{item.title}}</router-link>
+    特别注意：路由携带params参数时，若使用to的 对象写法，则不能使用path配置项，必须使用name配置项
+    
+## 路由的props配置
+    作用:让路由组件更加方便的收到参数
+    {
+        name:'xiangqiang',
+        path:'detail/:id',
+        component:Detail,
+        //第一种写法，props值为对象：所有的k,v都会通过props属性传递给Detail
+            props:{a:100,b:'xx'}
+        //第二种写法，props为true，params所有的k,v都会通过props属性传递给Detail
+            props:true
+        //第三种写法，props为函数，所有的k,v都会通过props属性传递给Detail
+            props($route){
+                return{ a:100,b:$route.query.id,c:$route.params.title}
+            }
+    }
+
+## <router-link>的replace属性
+    1：作用：控制路由跳转时，浏览器历史记录的模式
+    2：浏览去的历史记录有两种写入方式：分别为push和replace，push是追加历史记录，replace是替换当前历史记录
+        路由跳转的时候默认为push
+    3：如何开启replace模式：<router-link replace ...></router-link>
+    
+## 编程式路由导航
+    1：作用：不借助<router-link>实现路由跳转，更加灵活
+    2：具体编码：
+        this.$router.push({
+            
+        })
+    
+    切换路由时报Uncaught (in promise)
+    行 npm i vue-router@3.0 -S 即可
+    import Router from 'vue-router'
+    const originalPush = Router.prototype.push
+    Router.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+    }
