@@ -9,7 +9,11 @@
                            active-class="active" to="/home/message">Message</router-link></li>
         </ul>
         <!-- 使哪个组件保持活跃，不写的话所有放在该位置的组件都活跃，不销毁       -->
-        <keep-alive include="News">
+<!--        <keep-alive include="News">
+          <router-view></router-view>
+        </keep-alive>-->
+<!--多个写法        -->
+        <keep-alive :include=['News']>
           <router-view></router-view>
         </keep-alive>
 <!--        <router-view></router-view>-->

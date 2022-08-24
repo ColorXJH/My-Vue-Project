@@ -642,8 +642,22 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     1：作用：不借助<router-link>实现路由跳转，更加灵活
     2：具体编码：
         this.$router.push({
-            
+            name:'xiangqing',
+            params:{
+                id:xxx,
+                title:xxx,
+            }
         })
+        this.$router.replace({
+            name:'xiangqing',
+            params:{
+                id:xxx,
+                title:xxx,
+            }
+        })
+        this.$router.forward();//前进
+        this.$router.back();//后退
+        this.$router.go(num);//前进（正数），后退（负数）
     
     切换路由时报Uncaught (in promise)
     行 npm i vue-router@3.0 -S 即可
@@ -652,3 +666,28 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
     }
+
+## 缓存路由组件
+    1：作用：让不展示的路由组件保持挂载，不被销毁
+    2：具体编码：
+        <keep-alive include="News">
+            <router-view></router-view>
+        </keep-alive>
+
+## 两个新的生命周期钩子
+    1：作用：路由组件所独有的两个钩子，用于捕获路由组件的激活状态
+    2：具体名字：
+        1：activted 路由组件被激活时触发
+        2：deactivted 路由组件失活时触发
+## 路由守卫
+    1：作用：对路由进行权限控制
+    2：分类：全局守卫，独享守卫，组件内守卫
+    3：全局守卫：
+        1：全局前置守卫：初始化+每次路由切换前调用
+        router.beforeEach(function(to,from,next){
+            //权限判断
+        })
+        2：全局后置守卫：初始化+每次路由切换后调用
+        router.afterEach(function(to,from){
+            //修改标题
+        })

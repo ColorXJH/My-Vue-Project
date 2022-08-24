@@ -8,11 +8,7 @@
           <li><router-link class="list-group-item"
                            active-class="active" to="/home/message">Message</router-link></li>
         </ul>
-        <!-- 使哪个组件保持活跃，不写的话所有放在该位置的组件都活跃，不销毁       -->
-        <keep-alive include="News">
-          <router-view></router-view>
-        </keep-alive>
-<!--        <router-view></router-view>-->
+        <router-view></router-view>
       </div>
     </div>
 </template>

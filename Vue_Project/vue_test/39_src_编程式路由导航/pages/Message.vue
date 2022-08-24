@@ -47,9 +47,6 @@
             ],
           }
         },
-      beforeDestroy() {
-        console.log("message组件即将被销毁");
-      },
       methods:{
         pushShow(item){
           this.$router.push({
