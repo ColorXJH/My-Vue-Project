@@ -33,6 +33,19 @@ const router=new VueRouter({
                 meta:{isAuth:true,
                 title:'新闻',
                 },
+                //独享路由守卫
+                beforeEnter:function (to, from, next){
+                    if(to.meta.isAuth){//判断是否需要权限
+                        if(store.state.school=='广德中学'){
+                            //放行
+                            next();
+                        }else{
+                            alert("学校名称不对无权查看")
+                        }
+                    }else{
+                        next();
+                    }
+                }
             },
                 {
                 name:'xinxi',
@@ -68,7 +81,7 @@ const router=new VueRouter({
 
 });
 //添加全局前置路由守卫--》每次路由切换前调用，+初始化时也会被调用
-router.beforeEach(function(to,from,next){
+/*router.beforeEach(function(to,from,next){
     console.log("全局前置路由守卫启动",this);
     console.log(to,from,next);
     //这里也可以将数据存放在localStorage/sessionStorage中
@@ -88,7 +101,7 @@ router.beforeEach(function(to,from,next){
         next();
     }
 
-});
+});*/
 
 
 //添加全局后置路由守卫--》每次路由切换后调用，+初始化时也会被调用

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新的页面</title>
+</head>
+<body>
+    <h2>你好，这是新的页面</h2>
+    <button onclick="feedBack()">点我返回定位</button>
+    <button id="btn">点击发送请求</button>
+</body>
+<script>
+    function feedBack(){
+        window.open("",'xjh')
+    }
+
+    /*
+    *   获取客户端发送过来的回调函数的名字
+        得到要通过JSONP形式发送给客户端的数据
+        根据前两步得到的数据，拼接出一一个函数调用的字符串
+        把上一步拼接得到的字符串，响应给客户端的<script>标签进行解析执行
+    * */
+
+    /*
+    * 优点：
+        兼容性比较好，可用于解决主流浏览器的跨域数据访问的问题
+        不受到同源策略的限制，在请求完毕后可以通过调用 callback 的方式回传结果
+      缺点：
+        仅支持get请求；
+        具有局限性，不安全，可能会受到XSS攻击；
+        只支持跨域 HTTP 请求这种情况，不能解决不同域的两个页面之间如何进行 Javascript 调用的问题
+    * */
+    function getJsonpData(data) {
+        console.log("获取数据成功")
+        console.log(data)
+    }
+    var btn = document.getElementById("btn");
+    btn.onclick = function () {
+        //创建script标签
+        var script = document.createElement("script");
+        script.src = 'http://localhost:8081/jsonp?callback=getJsonpData';
+        document.body.appendChild(script);
+        script.onload = function () {
+            document.body.removeChild(script)
+        }
+    }
+</script>
+</html>

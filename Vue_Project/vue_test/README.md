@@ -691,3 +691,55 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         router.afterEach(function(to,from){
             //修改标题
         })
+
+## 独享路由守卫
+    1：beforeEnter(to,from,next){
+        ...
+    }
+    2：注意：独享路由守卫只有前置没有后置，可以和全局后置路由守卫配合使用
+    
+## 组件内守卫
+    1：进入守卫：通过路由规则，进入该组件时被调用
+        beforeRouterEnter(to,from,next){}
+    2：离开守卫：通过路由规则，离开组件时被调用
+        beforeRouterLeave(to,from,enter){}
+
+## 44 myserver下文件夹demo为node server
+    1:起初创建一个空的demo文件，在命令行窗口打开，运行 npm init 作为一个node项目
+    2: 接着运行 npm i express 使用该组件作为程序服务器发布组件
+    3：写好 server.js作为node服务器端处理的代码，完毕之后demo文件夹下打开cmd运行node server
+    4：自此node 后端服务启动，然后将编译好的前端代码放入static文件夹下
+    5：vue的hash模式对于访问路由跳转之后重新刷新页面表示请求资源，不会报错404，因为定位到了根路径，其后不作为url传递到后端
+    6：vue的history模式则不同，其看上去更美观但是其路径会传递到后端，刷新页面时，倒是服务器返回404
+    7：关于history模式导致的刷新问题可以借助在服务器端执行新的插件：npm install --save connect-history-api-fallback
+    8：var history = require('connect-history-api-fallback');
+    9：      var app = connect()
+                .use(history())
+                .listen(3000);
+    10:当然也可以使用nginx来作为中间代理，区分哪些是后端路由，哪些是前端路由
+    
+## 路由器的两种工作模式
+    1：对于一个url来说，什么是hash值，--》#机器后面的内容就是hash值
+    2：hash值不会包含在http请求中，即：hash值不会传递给服务器
+    3：hash模式：
+        1：地址中永远带着#号，不美观
+        2：若以后将地址通过第三方手机app分享，若app校验严格，则会被标记为不合法
+        3：兼容性较好
+    4：history模式：
+        1：地址干净，美观
+        2：兼容性和hash相比略差
+        3：应用部署上线时，需要后端人员支持，解决刷新页面服务器404的问题
+
+## VUE UI 组件库
+    1：移动端常用ui组件库
+        1：Vant:https://youzan.github.io/vant
+        2:Cube UI https://didi.github.io/cube-ui
+        3:Mint UI http://mint-ui.github.io
+        4:Nut UI
+    2: PC端常用UI组件库
+        1：Element UI https://element.eleme.cn
+        2: IView UI https://www.iview.com
+    
+
+    
+
