@@ -739,37 +739,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     2: PC端常用UI组件库
         1：Element UI https://element.eleme.cn
         2: IView UI https://www.iview.com
-    
-# vue3 快速上手
-    vue3简介：
-        2020.9.18，vue3.0发布，代号，one piece 海贼王
-    vue3带来了什么：
-        1：性能的提升
-            打包大小减少41%
-            初次渲染快55%,再次渲染快133%
-            内存减少41%
-            ...
-        2：源码的升级
-            使用Proxy代替defineProperty实现响应式
-            重写虚拟dom的实现和Tree-Shaking
-        3：拥抱Type-script
-            vue3.0可以更好的支持type-script
-        4：新的特性
-            1：CompositionAPI(组合API)
-                setup配置
-                ref与reactive
-                watch与watchEffect
-                provide与inject
-                ...
-            2：新的内置组件
-                Fragment
-                Teleport
-                Suspense
-            3:其他改变
-                新的生命周期钩子
-                data选项应该始终被声明为一个函数
-                移除keyCode支持做为v-on的修饰符
-                ...
+
+        
 
 
     
