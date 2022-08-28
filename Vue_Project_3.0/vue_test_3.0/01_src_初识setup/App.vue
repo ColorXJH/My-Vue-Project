@@ -2,43 +2,53 @@
 <!--  <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>-->
   <h1>我是app组件</h1>
-<!--发现name 是refimpl应用对象，自动帮我们读取属性的value值，不用我们手写{{name.value}}  -->
   <h2>姓名：{{name}},年龄{{age}}，性别{{sex}}</h2>
-  <h3>工作{{job.type}}，薪水{{job.salary}}</h3>
-  <button @click="changeInfo">修改人的信息</button>
+  <h2>a的值是：{{a}}</h2>
+  <button @click="sayHello">说话</button>
+  <button @click="sayWelcome">欢迎(vue2配置)</button>
+  <button @click="test1">vue2读vue3配置</button>
+  <button @click="test2">vue3读vue2配置</button>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import {h} from 'vue'
-import {ref} from 'vue';
 export default {
   name: 'App',
+  data(){
+    return {
+      sex:'男',
+      a:100,
+    }
+  },
+  methods:{
+    sayWelcome(){
+      alert("欢迎你")
+    },
+    test1(){
+      console.log(this.sex);
+      console.log(this.name);
+      console.log(this.sayHello);
+      console.log(this.age);
+    },
+  },
   setup(){
-    //数据,对于不同数据类型的 引用实现不同,非对象的为value,对象为Proxy代理
-    let name=ref("张三");
-    let age=ref(28);
-    let a=ref(200);
-    let job=ref({
-      type:'前端工程师',
-      salary:'30k',
-    })
+    //数据
+    let name="张三";
+    let age=28;
+    let a=200;
 
     //方法,此处只是此时一下，暂时不考虑响应式
     function sayHello(){
       alert(`我叫${name},我${age}岁了，你好啊`);
     }
-    function changeInfo(){
-      console.log(name,age,job);
-      name.value="李四";
-      age.value=48;
-      job.value.type="后端工程师";
-      job.value.salary="40K";
-    }
+
     function test2(){
       console.log(name)
       console.log(age)
       console.log(sayHello)
+      console.log(this.sex)
+      console.log(this.sayWelcome)
     }
 
     //返回一个对象（常用）
@@ -48,8 +58,6 @@ export default {
       sayHello,
       test2,
       a,
-      changeInfo,
-      job,
     }
     //返回一个函数(h 渲染哈哈书)
     /*return ()=>{

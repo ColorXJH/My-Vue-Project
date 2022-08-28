@@ -78,6 +78,38 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
             3：安装依赖 npm install
             4：运行 npm run dev
 
+## 常用composition(组合式) API
+    1：拉开序幕的setup
+        1:理解：vue3.0中一个新的配置项，值为一个函数
+        2：setup是所有composition api表演的舞台
+        3：组件中所用到的：数据，方法，等等，均要配置在setup中
+        4：setup函数的两种返回值：
+            1：若返回一个对象，则对象中的属性，方法 在模板中均可以被使用（重点关注）
+            2：若返回一个渲染函数，则可以自定义渲染内容
+        5：注意点：
+            1:尽量不要与vue2.x混合使用
+                vue2.x配置（data,methods,computed...）中可以访问到setup中的属性，方法
+                但是在setup中不能访问到vue2.x配置（data,methods,computed...）
+                如果有重名，setup优先
+            2：setup不能是一个async函数，以为返回值不再是return对象，而是promise,模板看不到return对象中的属性
+    2：ref函数
+        作用：定义一个响应式的数据
+        语法：const xxx=ref(initValue)
+            创建一个包含响应式数据的引用对象（reference对象）
+            js中操作数据xxx.value
+            模板中读取数据：不需要.value，直接<div>{{xxx}}</div>
+        备注：
+            接受的数据可以是基本数据类型，也可以是对象类型
+            基本类型的数据：响应式依然是靠 Object.defineProperty()的get和set完成的
+            对象类型的数据：内部“求助”了vue3.0中的一个新函数：reactive函数
+    3：reactive函数
+        作用：定义一个对象类型的响应式数据（基本类型别用它，用ref函数）
+        语法：const 代理对象=reactive(被代理对象) 接收一个对象（或数组），返回一个代理器对象（proxy对象）
+        reactive定义的响应式数据是“深层次的”
+        内部基于ES6的Proxy实现，通过代理对象操作源对象内部数据都是响应式的
+        
+    4：vue3中的响应式原理
+    
 
                 
 
