@@ -217,7 +217,29 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
             
             //情况五：监视reactive定义的响应式数据中的某些属性
     
+        3：watchEffect函数
+            watch的套路是：即要指明监视的属性，也要指明监视的回调
+            watchEffect的套路是：不用指明监视哪个属性，监视的回调中用到哪个属性，那就监视哪个属性
+            watchEffect有点像computed：
+                但是computed注重的是计算出来的值（回调函数的返回值），所以必须要写返回值
+                而watchEffect更注重的是过程（回调函数的函数体），所以不用写返回值
+            //watchEffect所指定的回调中用到的数据只要发生变化，则直接重新执行回到
+            watchEffect(()=>{
+                const x1=sum.value
+                const x2=person.age
+                console.log("watchEffect配置的回调执行了")
+            })
+        
+## vue3生命周期
+    相较于vue2vue3改变了最后一对生命周期
+        由beforeDestory/destoryed==>beforeUnmount/Unmount
 
+## 自定义hook函数
+    1:什么是hook?-->本质是一个函数，把setup函数中使用的composition API 进行了封装
+    2:类似于vue2中的mixin
+    3:自定义hook的优势：复用代码，让setup中的逻辑更加易懂
+
+## toRef
                 
 
 

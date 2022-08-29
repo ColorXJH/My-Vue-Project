@@ -1,27 +1,15 @@
 <template>
-<!--  <button @click="isShowDemo=!isShowDemo">隐藏/显示</button>-->
-  <button @click="changeDemo">隐藏/显示</button>
-  <Demo v-if="isShowDemo">
+  <Demo >
   </Demo>
 </template>
 
 <script>
 import Demo from "@/components/Demo";
-import {ref,} from 'vue';
+import {ref,reactive} from 'vue';
 export default {
   name: 'App',
-  setup(){
-    let isShowDemo=ref(true);
-    function changeDemo(){
-      isShowDemo.value=!isShowDemo.value
-    }
-    return {
-      isShowDemo,
-      changeDemo
-    }
-  },
   components: {
-    Demo,
+    Demo
   }
 }
 </script>
