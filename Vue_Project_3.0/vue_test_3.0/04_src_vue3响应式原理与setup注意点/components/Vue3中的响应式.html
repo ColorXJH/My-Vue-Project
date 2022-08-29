@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2,Vue3中的响应式</title>
+</head>
+<body>
+<script>
+    //vue2中的响应式，set get可以响应，添加山粗无法响应，所以它有Vue.set(),Vue.delete（$set(),$delete）
+       let person={
+           name:"张三",
+           age:18
+       }
+       let p={}
+       Object.defineProperty(p,'name',{
+           configurable:true,
+           get(){
+               console.log("有人读取了name属性")
+               return person.name;
+           },
+           set(val){
+               console.log("有人修改了name属性")
+               person.name=val;
+           },
+       })
+       Object.defineProperty(p,'age',{
+           configurable:true,
+           get(){
+               console.log("有人读取了age属性")
+               return person.age;
+           },
+           set(val){
+               console.log("有人修改了age属性")
+               person.age=val;
+           },
+       })
+
+    //vue3的响应式
+        let personB={
+           name:'李四',
+            age:28,
+        }
+        //a:代理对象， : 配置信息
+        const px=new Proxy(personB,{
+            //读取
+            get(target,propName){
+                //console.log("有人读取了px身上的%s属性",propName),
+                console.log(`有人读取了px身上的${propName}属性`,"@@")
+                //注意：propName是形参，使用target.propName相当于将propName当成字符串解析了
+                //return target[propName];
+                return Reflect.get(target,propName)
+            },
+            //修改，增加
+            set(target,propName,val){
+                console.log(`有人修改了了px身上的${propName}属性,值为${val}`)
+                //target[propName]=val;
+                Reflect.set(target,propName,val)
+            },
+            //删除
+            deleteProperty(target, propName) {
+                console.log(`有人删除了px身上的${propName}属性}`)
+                //return delete target[propName];
+                return Reflect.deleteProperty(target,propName)
+            }
+        })
+        const Obj={a:1,b:2}
+        console.log(Obj.a)
+        console.log(window.Reflect.get(Obj,'a'))
+        Reflect.set(Obj,'b',666);
+        console.log(Obj.b)
+        Reflect.deleteProperty(Obj,'a');
+        console.log(Obj)
+    //报错
+    /*Object.defineProperty(Obj,'c',{
+        get(){
+            return 3
+        }
+    })
+    Object.defineProperty(Obj,'c',{
+        get(){
+            return 4
+        }
+    })*/
+    //有返回值,对于框架封装友好
+    const x1=Reflect.defineProperty(Obj,'c',{
+        get(){
+            return 3
+        }
+    })
+    const x2=Reflect.defineProperty(Obj,'c',{
+        get(){
+            return 4
+        }
+    })
+    if(x2){
+        console.log("xxx操作成功")
+    }else {
+        console.log("123操作成功")
+    }
+</script>
+</body>
+</html>

@@ -109,6 +109,113 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         内部基于ES6的Proxy实现，通过代理对象操作源对象内部数据都是响应式的
         
     4：vue3中的响应式原理
+        vue2.x的响应式
+            实现原理：
+                对象类型：通过Object.definePerpoty()对属性的读取，修改进行拦截（数据劫持）
+                数组类型：通过重写更新数组的一系列方法来实现拦截，对数组的变更方法进行了包裹
+                    Object.defineProperty("data",{
+                        get(){},
+                        set(){},
+                    })
+            存在问题：
+                新增属性，删除属性，界面不会更新
+                直接通过下标修改数组，界面不会自动更新
+        Vue3的响应式
+            实现原理：
+                通过Proxy代理：拦截对象中任意属性的变化，包括：属性值的读写，属性的添加，属性的删除等
+                通过Reflect反射：对被代理的对象的属性进行操作
+                MDN文档中描述了Proxy与Reflect
+                    https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+                    https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect
+                let personB={
+                    name:'李四',
+                    age:28,
+                }
+                //a:代理对象， : 配置信息
+                const px=new Proxy(personB,{
+                    //读取
+                    get(target,propName){
+                        //console.log("有人读取了px身上的%s属性",propName),
+                        console.log(`有人读取了px身上的${propName}属性`,"@@")
+                        //注意：propName是形参，使用target.propName相当于将propName当成字符串解析了
+                        //return target[propName];
+                        return Reflect.get(target,propName)
+                    },
+                    //修改，增加
+                    set(target,propName,val){
+                            console.log(`有人修改了了px身上的${propName}属性,值为${val}`)
+                            //target[propName]=val;
+                            Reflect.set(target,propName,val)
+                    },
+                    //删除
+                    deleteProperty(target, propName) {
+                        console.log(`有人删除了px身上的${propName}属性}`)
+                        //return delete target[propName];
+                        return Reflect.deleteProperty(target,propName)
+                    }
+                })
+    5:reactive对比ref
+        1:从定义数据角度对比：
+            ref用来定义：基本数据类型
+            reactive用来定义：对象（或数组）类型数据
+            备注：ref也可以用来定义对象（或数组）类型数据，它北部会自动通过reactive函数转为代理对象
+        2:从原理角度对比：
+            ref通过Object.defineProperty的get/set来实现响应式（数据劫持）
+            reactive通过使用Proxy来实现响应式（数据劫持），并通过Reflect操作源对象内部的数据
+        3：从使用角度对比：
+            ref定义的数据：操作数据需要.value，读取数据时模板中直接读取不需要.value
+            reactive定义的数据：操作数据与读写数据，均不需要。value
+       
+    6:setup的两个注意点
+        setup执行的时机：
+            在beforeCreate之前执行一次，this是undefined
+        setup的参数
+            props:值为对象，包含：组件外部传递过来，且组件内部声明接收了的属性
+            context: 上下文对象
+                attrs:值为对象，包含：组件外部传递过来，但是没有在props配置中声明的属性，相当于this.$attrs
+                slots:收到的插槽内容，相当于this.$slots
+                emit：分发自定义事件的函数：相当于this.$emit
+    
+    7:计算属性与监视
+        1：computed函数
+            与vue2中的computed配置功能一致
+            写法：
+                import {computed} from 'vue'
+                setup(){
+                    ...
+                    //计算属性-简写
+                    let fullName=computed(()=>{
+                            return person.firstName-person.lastName
+                        }
+                    )
+                    //计算属性-完整
+                    let fullName=computed(()=>{
+                        get(){
+                            retrun person.firstName-person.lastName
+                        },
+                        set(val){
+                            const nameArr=val.split("-")
+                            person.firstName=nameArr[0];
+                            person.lastName=nameArr[1];
+                        }
+                    })
+                }
+        2:watch函数：
+            与vue2中watch配置功能一致
+            两个小坑：
+                监视reactive定义的响应式数据时，oldValue,无法正确获取，强制开启了深度监视（deep配置失效）
+                监视reactive定义的响应式数据中的某个属性时，deep配置有效
+
+            //情况一：监视ref定义的响应式数据
+            
+            //情况二：监视多个ref定义的响应式数据
+            
+            //情况三：监视reactive定义的响应式数据
+                     若watch监视的是reactive定义的响应式数据，则无法正确获取oldValue，并强制开启深度监视
+            
+            //情况四：监视reactive定义的响应式数据中的某个属性
+            
+            //情况五：监视reactive定义的响应式数据中的某些属性
     
 
                 
