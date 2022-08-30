@@ -277,14 +277,52 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
                 export default{
                     name:'Demo',
                     setup(){
-                        //自定义一个myRef
-                        function myRef(){
-
-                        }
+                        //自定义的ref
+                        function myRef(value){
+                        let timer
+                        console.log("----myRef----",value);
+                        return customRef((track,trigger)=>{
+                            return {
+                                get(){
+                                    console.log(`有人从myRef中读取数据了，我把${value}返回给它了`)
+                                    track();//通知vue追踪value数据的变化
+                                    return value
+                                },
+                                set(val){
+                                    console.log(`有人把myRef中数据修改为了：${val}返回给它了`)
+                                    clearTimeout(timer)
+                                    timer=setTimeout(()=>{
+                                    //将新的值赋值给形参（get返回值)
+                                    value=val;
+                                    trigger();//通知vue去重新解析模板
+                                    },500)
+                                },
+                            }
+                        })
                     }
                 }
             </script>
-                
+    5：provide与inject
+        作用：实现祖 孙 组件之间通信
+        套路：父组件有一个provide选项来提供数据，后代组件有一个inject选项来使用这些数据
+        具体写法：
+        1：祖组件中：
+            setup(){
+                let car=reactive({name:"奔驰",price:"40W"})
+                provide('car',car)
+            }
+        2:孙组件中；
+            setup(){
+                let car=inject("car")
+            }
+    6：响应式数据的判断
+        isRef:检查一个值是否为一个ref对象
+        isReactive:检查一个对象是否由reactive创建的响应式的代理
+        isReadonly:检查一个对象是否由readonly创建的只读代理
+        isProxy:检查一个对象是否由reactive或者readonly方法创建的代理
 
+## composition API的优势
+    
+    
 
 
