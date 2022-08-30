@@ -1,20 +1,27 @@
 <template>
-  <input type="text" v-model:keyWord/>
-  <h3>{{keyWord}}</h3>
+<!--  <button @click="isShowDemo=!isShowDemo">隐藏/显示</button>-->
+  <button @click="changeDemo">隐藏/显示</button>
+  <Demo v-if="isShowDemo">
+  </Demo>
 </template>
 
 <script>
+import Demo from "@/components/Demo";
 import {ref,} from 'vue';
 export default {
   name: 'App',
   setup(){
-    let keyWord=ref("hello")
+    let isShowDemo=ref(true);
+    function changeDemo(){
+      isShowDemo.value=!isShowDemo.value
+    }
     return {
-      keyWord
+      isShowDemo,
+      changeDemo
     }
   },
   components: {
-
+    Demo,
   }
 }
 </script>
