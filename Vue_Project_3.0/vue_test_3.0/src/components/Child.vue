@@ -1,20 +1,27 @@
 <template>
   <div class="child">
     <h3>我是app组件(子),{{x.name}}--{{x.price}}</h3>
-    <Sun/>
+    {{sum}}
   </div>
 </template>
 <script>
-import Sun from "@/components/Sun";
-import {inject} from "vue";
+import {inject, ref} from "vue";
     export default {
         name:"Child",
-        components:{Sun,},
-      setup(){
-          let x=inject("car")
-        return{
-            x,
-        }
+       async setup(){
+        let x=inject("car")
+        let sum=ref(0);
+         //让组件等一等：1：网速慢 2使用了异步组件 配合async/await
+        let p= new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+              resolve({
+                sum,x
+              });
+            },3000)
+        })
+         console.log(p);
+        return await p
+
 
       },
 

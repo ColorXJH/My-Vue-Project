@@ -1,28 +1,13 @@
 <template>
   <div class="app">
     <h3>我是app组件(祖),{{name}}--{{price}}</h3>
-    <!--suspense默认有两个插槽    -->
-    <suspense>
-      <template v-slot:default>
-        <Child/>
-      </template>
-      <template v-slot:fallback>
-        <h3>加载中。。。</h3>
-      </template>
-    </suspense>
+    <Child/>
   </div>
 </template>
 
 <script>
-//import Child from "@/components/Child"; //静态引入
-
-import {reactive, toRefs, provide,} from "vue";
-
-//动态引入（异步引入）
-import {defineAsyncComponent} from 'vue'
-const Child=defineAsyncComponent(()=>{
-  return import("./components/Child")
-})
+import Child from "@/components/Child";
+import {reactive, toRefs, provide, ref, readonly, isRef, isReactive, isReadonly, isProxy} from "vue";
 export default {
   name: 'App',
   setup(){
@@ -30,6 +15,15 @@ export default {
       name:"奔驰",
       price:"40W",
     })
+
+    let sum=ref(0)
+    let car2=readonly(car)
+
+    console.log(isRef(sum))
+    console.log(isReactive(car))
+    console.log(isReadonly(car2))
+    console.log(isProxy(car))
+    console.log(isProxy(car2))
     provide('car',car)//给自己的后代组件传递数据
     return {
       ...toRefs(car)

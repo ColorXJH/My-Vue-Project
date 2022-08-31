@@ -1,11 +1,12 @@
 <template>
   <div class="sun">
     <h3>我是app组件(孙),{{car.name}}--{{car.price}}</h3>
+    <Dialog/>
   </div>
 </template>
 <script>
 import {inject} from "vue";
-
+import Dialog from "@/components/Dialog";
 export default {
         name:"Sun",
         setup(){
@@ -13,6 +14,9 @@ export default {
           return {
             car,
           }
+        },
+        components:{
+          Dialog,
         },
     }
 </script>

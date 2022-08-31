@@ -92,6 +92,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
                 但是在setup中不能访问到vue2.x配置（data,methods,computed...）
                 如果有重名，setup优先
             2：setup不能是一个async函数，以为返回值不再是return对象，而是promise,模板看不到return对象中的属性
+                后期也可以返回一个promise实例，但是需要Suspense和异步组件配合使用
     2：ref函数
         作用：定义一个响应式的数据
         语法：const xxx=ref(initValue)
@@ -322,7 +323,107 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         isProxy:检查一个对象是否由reactive或者readonly方法创建的代理
 
 ## composition API的优势
-    
-    
+    1:options API存在的问题
+        使用传统options API中，新增或者修改一个需求，就需要分别再data,methods,computed里面修改
+    2：composition API的优势
+        我们可以更加优雅的组织我们的代码，函数，让相关功能的代码更加有序的组织在一起
+##新的组件
+    1：Fragment
+        在vue2中：组件必须有一个根标签
+        在vue3中，组件可以没有根标签，内部会将多个标签包含在一个Fragment虚拟元素中
+        好处：减少标签层级，减少内存占用
+    2：Teleport
+        什么是Teleport:---Teleport是一种能够将我们的组件html结构移动到指定位置的技术
+        <teleport to="移动位置">
+             <div v-if="isShow" class="mask">
+                <div class="dialog">
+                    <h3>我是一个弹窗</h3>
+                    <button @click="isShow=false">关闭弹窗</button>
+                </div>
+            </div>   
+        </teleport>
+    3：Suspense
+        等待异步组件时渲染一些额外的内容，让用户有更好的体验
+        等待步骤
+            异步组件引入
+                import {defineAsyncComponent} from 'vue'
+                const child=defineAsyncComponent(()=>{
+                    import("./components/child.vue")
+                })
+            使用Suspense包裹组件，并配置好default与fallback
+                <template>  
+                    <div class="app">
+                        <h3>我是app组件</h3>
+                        <Suspense>
+                            <template v-slot:default><Child/></template>
+                            <template v-slot:fallback><h3>加载中...</h3></template>    
+                        </Suspense>
+                    </div>
+                </template>
+        
+##其他
+    1：全局API的转移
+        vue2有许多全局api和配置
+            例如注册全局组件，注册全局指令等：
+            //组测全局组件
+            Vue.component('MyButton',{
+                data:()=>{
+                    count:0,    
+                }
+                template:'<button @click="count++">click {{count}}</button>'
+            })
+            //组测全局指令
+            Vue.directive('focus',{
+                inserted: el=>el.focus()
+            })
+        vue3中对这些api做出了调整
+            将全局api，即Vue.xxx调整到应用实例（app）上
+                vue2                                    vue3
+            Vue.config.xxx                          app.config.xxx
+            Vue.config.productionTip                移除
+            Vue.component                           app.component
+            Vue.directive                           app.directive
+            Vue.mixin                               app.mixin       
+            Vue.use                                 app.use
+            Vue.prototype                           app.config.globalProperties
+    2:其他改变
+        data选项应该始终被声明为一个函数
+        过度类名的更改
+            vue2.x
+                .v-enter,
+                .v-leave-to{
+                    opacity:0;
+                }
+                .v-leave,
+                .v-enter-to{
+                    opacity:1
+                }
+            vue3.x
+                .v-enter-from,
+                .v-leave-to{
+                    opacity:0
+                }
+                .-leave-from,
+                .v-enter-to{
+                    opacity:1
+                }
+        移除keyCode作为v-on的修饰符，同时也不再支持config.keyCodes
+        移除v-on.native修饰符
+            父组件中绑定事件
+                <my-component
+                    v-on:close="handleComponentEvent"
+                    v-on:click="handleNativeClickEvent"
+                >
+                </my-component>
+            子组件中声明自定义事件
+                <script>
+                     export default{
+                            emits:["close"]//接收自定义事件，没声明就是原生事件
+                        }   
+                </script>
+        移除过滤器filter
+            过滤器虽然看起来很方便,但是他需要一个自定义语法，打破大括号内表达式“只是javascript”的假设
+            这不仅有学习成本，还有实现成本，建议使用方法调用或计算属性去替代
+        ...
 
 
